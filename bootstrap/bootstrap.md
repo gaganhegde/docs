@@ -22,11 +22,11 @@ $ odo pipelines bootstrap \
 
 | Option                  | Description |
 | ----------------------- | ----------- |
-| --app-repo              | This is the source code to your initial application.   E.g. https://github.com/user/app.git |
+| --app-repo              | This is the source code to your initial application.   E.g. https://github.com/user/service.git |
 | --app-webhook-secret    | Creates a secret used to validate incoming hooks. |
 | --gitops-repo-url       | This is where your configuration and manifest live. E.g. https://github.com/user/gitops.git|
 | --gitops-webhook-secret | This is used to validate incoming hooks. |
-| --image-repo            | Where should we configure your builds to push to? E.g. quay.io/wtam/app|
+| --image-repo            | Where should we configure your builds to push to? E.g. quay.io/user/service|
 | --dockercfgjson         | This is used to authenticate image pushes to your image-repo. |
 | --prefix                | Optional.  This is used to help separate user namespaces. |
 | --output                | Optional.  Output path.  |
@@ -38,7 +38,7 @@ The following [directory layout](output) is generated.
 ├── environments
 │   ├── argocd
 │   │   └── config
-│   │       ├── [dev-service-app.yaml](environments/argocd/config/dev-service-app.yaml)
+│   │       ├── dev-service-app.yaml
 │   │       └── kustomization.yaml
 │   ├── cicd
 │   │   ├── base
