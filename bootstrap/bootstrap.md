@@ -3,7 +3,7 @@
 
 ## Bootstrap 
 
-Bootstrap command creates defualt environments for your initial application.  It outputs resources yaml files, kustomization files, w and Manifest.  The following resources are written to filesystem.
+Bootstrap command creates defualt environments for your initial application.  It outputs resources yaml files, kustomization files, and Manifest.  The following resources are written to filesystem.
    
 * CI/CD envrionment with pipelines and resources
 * ArgoCD environment
@@ -11,7 +11,7 @@ Bootstrap command creates defualt environments for your initial application.  It
 * Stage environment
 
 ```shell
-$ odo manifest bootstrap \
+$ odo pipelines bootstrap \
   --app-repo-url <source Git repository URL> \
   --app-webhook-secret <application webhook secret> \
   --gitops-repo-url <CI/CD pipeline configuration repostory URL> \
@@ -31,16 +31,16 @@ $ odo manifest bootstrap \
 | --prefix                | Optional.  This is used to help separate user namespaces. |
 | --output                | Optional.  Output path.  |
 
-The following directory layout is generated.
+The following [directory layout](output) is generated.
 
 ```shell
 .
 ├── environments
-│   ├── demo-argocd
+│   ├── argocd
 │   │   └── config
-│   │       ├── demo-dev-taxi-app.yaml
+│   │       ├── dev-service-app.yaml
 │   │       └── kustomization.yaml
-│   ├── demo-cicd
+│   ├── cicd
 │   │   ├── base
 │   │   │   ├── kustomization.yaml
 │   │   │   └── pipelines
@@ -52,7 +52,7 @@ The following directory layout is generated.
 │   │   │       │   └── pipeline-service-role.yaml
 │   │   │       ├── 03-secrets
 │   │   │       │   ├── docker-config.yaml
-│   │   │       │   ├── github-webhook-secret-taxi-svc.yaml
+│   │   │       │   ├── github-webhook-secret-service-svc.yaml
 │   │   │       │   └── gitops-webhook-secret.yaml
 │   │   │       ├── 04-tasks
 │   │   │       │   ├── deploy-from-source-task.yaml
@@ -75,9 +75,9 @@ The following directory layout is generated.
 │   │   │       └── kustomization.yaml
 │   │   └── overlays
 │   │       └── kustomization.yaml
-│   ├── demo-dev
+│   ├── dev
 │   │   ├── apps
-│   │   │   └── taxi
+│   │   │   └── service
 │   │   │       ├── base
 │   │   │       │   └── kustomization.yaml
 │   │   │       ├── kustomization.yaml
@@ -85,13 +85,13 @@ The following directory layout is generated.
 │   │   │           └── kustomization.yaml
 │   │   ├── env
 │   │   │   ├── base
-│   │   │   │   ├── demo-dev-environment.yaml
-│   │   │   │   ├── demo-dev-rolebinding.yaml
+│   │   │   │   ├── dev-environment.yaml
+│   │   │   │   ├── dev-rolebinding.yaml
 │   │   │   │   └── kustomization.yaml
 │   │   │   └── overlays
 │   │   │       └── kustomization.yaml
 │   │   └── services
-│   │       └── taxi-svc
+│   │       └── service-svc
 │   │           ├── base
 │   │           │   ├── config
 │   │           │   │   ├── 100-deployment.yaml
@@ -101,11 +101,11 @@ The following directory layout is generated.
 │   │           ├── kustomization.yaml
 │   │           └── overlays
 │   │               └── kustomization.yaml
-│   └── demo-stage
+│   └── stage
 │       └── env
 │           ├── base
-│           │   ├── demo-stage-environment.yaml
-│           │   └── kustomization.yaml
+│           │   ├── kustomization.yaml
+│           │   └── stage-environment.yaml
 │           └── overlays
 │               └── kustomization.yaml
 └── pipelines.yaml

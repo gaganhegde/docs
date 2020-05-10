@@ -1,0 +1,23 @@
+environments:
+- apps:
+  - name: service
+    services:
+    - service-svc
+  name: dev
+  pipelines:
+    integration:
+      binding: github-pr-binding
+      template: app-ci-template
+  services:
+  - name: service-svc
+    source_url: https://github.com/user/service.git
+    webhook:
+      secret:
+        name: github-webhook-secret-service-svc
+        namespace: cicd
+- name: stage
+- cicd: true
+  name: cicd
+- argo: true
+  name: argocd
+gitops_url: https://github.com/user/gitops.git
