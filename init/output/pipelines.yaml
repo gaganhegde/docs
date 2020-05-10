@@ -1,0 +1,4 @@
+environments:
+- cicd: true
+  name: cicd
+gitops_url: https://github.com/wuser/gitops.git
