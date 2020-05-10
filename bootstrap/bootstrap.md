@@ -38,7 +38,7 @@ The following [directory layout](output) is generated.
 ├── environments
 │   ├── argocd
 │   │   └── config
-│   │       ├── dev-service-app.yaml
+│   │       ├── [dev-service-app.yaml](environments/argocd/config/dev-service-app.yaml)
 │   │       └── kustomization.yaml
 │   ├── cicd
 │   │   ├── base
