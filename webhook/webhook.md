@@ -11,13 +11,13 @@ _Webhook create_ command creates a webhook on target Git repository using secret
 ```shell
 $ odo pipelines webhook create 
     --access-token 
-    [--cidi] | [--env-name --service-name]
+    [--cicd] | [--env-name --service-name]
     [--manifest]
 ```
 | Option                  | Description |
 | ----------------------- | ----------- |
 | --access-token | Access token to be used to operate on Git repository.|
-| --cidi, --env-name, --service-name | Specify --cicd flag if the target Git repository is a CI/CD configuration repository.  Otherwise, provide environment and service names if the target Git repository is a service's source repository.  Either --cicd or both --env-name and --service-name must be provided.|  
+| --cicd, --env-name, --service-name | Specify --cicd flag if the target Git repository is a CI/CD configuration repository.  Otherwise, provide environment and service names if the target Git repository is a service's source repository.  Either --cicd or both --env-name and --service-name must be provided.|  
 | --manifest | Optional.  Path to manifest file.  Default is _pipelines.yaml_. |
 
 ## Webhook delete
@@ -27,13 +27,13 @@ _Webhook delete_ command deletes all webhooks from Git repository that contains 
 ```shell
 $ odo pipelines webhook delete 
     --access-token 
-    [--cidi] | [--env-name --service-name]
+    [--cicd] | [--env-name --service-name]
     [--manifest]
 ```
 | Option                  | Description |
 | ----------------------- | ----------- |
 | --access-token | Access token to be used to operate on Git repository.|
-| --cidi, --env-name, --service-name | Specify --cicd flag if the target Git repository is a CI/CD configuration repository.  Otherwise, provide environment and service names if the target Git repository is a service's source repository.  Either --cicd or both --env-name and --service-name must be provided.|  
+| --cicd, --env-name, --service-name | Specify --cicd flag if the target Git repository is a CI/CD configuration repository.  Otherwise, provide environment and service names if the target Git repository is a service's source repository.  Either --cicd or both --env-name and --service-name must be provided.|  
 | --manifest | Optional.  Path to manifest file.  Default is _pipelines.yaml_. |
 
 ## Webhook list
@@ -43,11 +43,11 @@ _Webhook list_ command displays webhook IDs of Git repository that contains the 
 ```shell
 $ odo pipelines webhook list 
     --access-token 
-    [--cidi] | [--env-name --service-name]
+    [--cicd] | [--env-name --service-name]
     [--manifest]
 ```
 | Option                  | Description |
 | ----------------------- | ----------- |
 | --access-token | Access token to be used to operate on Git repository.|
-| --cidi, --env-name, --service-name | Specify --cicd flag if the target Git repository is a CI/CD configuration repository.  Otherwise, provide environment and service names if the target Git repository is a service's source repository.  Either --cicd or both --env-name and --service-name must be provided.|  
+| --cicd, --env-name, --service-name | Specify --cicd flag if the target Git repository is a CI/CD configuration repository.  Otherwise, provide environment and service names if the target Git repository is a service's source repository.  Either --cicd or both --env-name and --service-name must be provided.|  
 | --manifest | Optional.  Path to manifest file.  Default is _pipelines.yaml_. |
