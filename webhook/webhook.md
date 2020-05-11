@@ -1,8 +1,5 @@
 # Odo Pipelines Webhook Command
 
-
-## Webhook 
-
 * [webhook create](#Wehbook-create)
 * [webhook delete](#Webhook-delete)
 * [webhook list](#Webhook-list)
