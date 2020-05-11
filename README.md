@@ -1,4 +1,5 @@
 # GitOps 
 
-* [odo pipelines commands reference](command_references)
+* [odo pipelines command reference](command_reference)
+* [manifest model](manifest)
 
