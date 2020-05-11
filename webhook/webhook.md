@@ -17,6 +17,11 @@ $ odo pipelines webhook create
     [--cidi] | [--env-name --service-name]
     [--manifest]
 ```
+| Option                  | Description |
+| ----------------------- | ----------- |
+| --access-token | Access token to be used to operate on Git repository.|
+| --cidi, --env-name, --service-name | Specify --cicd flag if the target Git repository is a CI/CD configuration repository.  Otherwise, provide environment and service names if the target Git repository is a service's source repository.  Either --cicd or both --env-name and --service-name must be provided.|  
+| --manifest | Optional.  Path to manifest file.  Default is _pipelines.yaml_. |
 
 ## Webhook delete
 
@@ -28,6 +33,11 @@ $ odo pipelines webhook delete
     [--cidi] | [--env-name --service-name]
     [--manifest]
 ```
+| Option                  | Description |
+| ----------------------- | ----------- |
+| --access-token | Access token to be used to operate on Git repository.|
+| --cidi, --env-name, --service-name | Specify --cicd flag if the target Git repository is a CI/CD configuration repository.  Otherwise, provide environment and service names if the target Git repository is a service's source repository.  Either --cicd or both --env-name and --service-name must be provided.|  
+| --manifest | Optional.  Path to manifest file.  Default is _pipelines.yaml_. |
 
 ## Webhook list
 
@@ -39,5 +49,8 @@ $ odo pipelines webhook list
     [--cidi] | [--env-name --service-name]
     [--manifest]
 ```
-
-
+| Option                  | Description |
+| ----------------------- | ----------- |
+| --access-token | Access token to be used to operate on Git repository.|
+| --cidi, --env-name, --service-name | Specify --cicd flag if the target Git repository is a CI/CD configuration repository.  Otherwise, provide environment and service names if the target Git repository is a service's source repository.  Either --cicd or both --env-name and --service-name must be provided.|  
+| --manifest | Optional.  Path to manifest file.  Default is _pipelines.yaml_. |
