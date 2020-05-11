@@ -1,8 +1,5 @@
 # Odo Pipelines Environment Command
 
-
-## Environment 
-
 ## Environment add
 
 _Environment add_ command creates a new environment in an existing GitOps setup.  It outputs resources yaml files, kustomization files, and updated Manifest.  The following resources are written to filesystem.
