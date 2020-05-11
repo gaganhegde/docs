@@ -1,8 +1,5 @@
 # Odo Pipelines Bootstrap Command
 
-
-## Bootstrap 
-
 Bootstrap command creates defualt environments for your initial application.  It outputs resources yaml files, kustomization files, and Manifest.  The following resources are written to filesystem.
    
 * CI/CD envrionment with pipelines and resources
