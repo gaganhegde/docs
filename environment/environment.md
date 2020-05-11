@@ -12,7 +12,7 @@ _Environment add_ command creates a new environment in an existing GitOps setup.
 ```shell
 $ odo pipelines environment add 
   --env-name 
-  --manifest 
+  [--manifest]
 ```
 
 | Option                  | Description |
