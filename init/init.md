@@ -1,8 +1,5 @@
 # Odo Pipelines Init Command
 
-
-## Init 
-
 Init command creates CI/CD environments for you.  Unlinke the [bootstrap](bootstrap.md) command, it does not create your first application and other environments.   It outputs resources yaml files, kustomization files, and Manifest to filesystem.
 
 ```shell
