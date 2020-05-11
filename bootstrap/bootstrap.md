@@ -28,7 +28,7 @@ $ odo pipelines bootstrap
 | --gitops-webhook-secret | A secret used to validate incoming events from GitOps webhook. |
 | --image-repo | Where should we configure your builds to push to? E.g. quay.io/user/service or user/service for internal registry|
 | --dockercfgjson | Path to dockercfgjson file.  This is used to authenticate image pushes to your image-repo. |
-| --internal-registry-hostname | Internal image registry hostname (default _image-registry.openshift-image-registry.svc:5000_)
+| --internal-registry-hostname | Optional. Internal image registry hostname (default _image-registry.openshift-image-registry.svc:5000_)
 | --prefix                | Optional.  This is used to help separate user namespaces. |
 | --output                | Optional.  Output path.  (default is the current working directory|
 
