@@ -11,25 +11,29 @@ Bootstrap command creates defualt environments for your initial application.  It
 * Stage environment
 
 ```shell
-$ odo pipelines bootstrap \
-  --app-repo-url <source Git repository URL> \
-  --app-webhook-secret <application webhook secret> \
-  --gitops-repo-url <CI/CD pipeline configuration repostory URL> \
-  --gitops-webhook-secret <GitOps webhook secret> \
-  --image-repo <application image repository> \
-  --dockercfgjson ~/Downloads/<username>-auth.json 
+$ odo pipelines bootstrap 
+  --app-repo-url 
+  --app-webhook-secret 
+  --gitops-repo-url
+  --gitops-webhook-secret
+  --image-repo
+  --dockercfgjson 
+  [--internal-registry-hostname]
+  [--prefix]
+  [--output]
 ```
 
 | Option                  | Description |
 | ----------------------- | ----------- |
-| --app-repo              | This is the source code to your initial application.   E.g. https://github.com/user/service.git |
-| --app-webhook-secret    | Creates a secret used to validate incoming hooks. |
-| --gitops-repo-url       | This is where your configuration and manifest live. E.g. https://github.com/user/gitops.git|
-| --gitops-webhook-secret | This is used to validate incoming hooks. |
-| --image-repo            | Where should we configure your builds to push to? E.g. quay.io/user/service|
-| --dockercfgjson         | This is used to authenticate image pushes to your image-repo. |
+| --app-repo | The source repository of your initial application.   E.g. https://github.com/user/service.git |
+| --app-webhook-secret | A secret used to validate incoming events from source repository webhook. |
+| --gitops-repo-url | The Git repository where your configuration and manifest live. E.g. https://github.com/user/gitops.git|
+| --gitops-webhook-secret | A secret used to validate incoming events from GitOps webhook. |
+| --image-repo | Where should we configure your builds to push to? E.g. quay.io/user/service or user/service for internal registry|
+| --dockercfgjson | This is used to authenticate image pushes to your image-repo. |
+| --internal-registry-hostname | Internal image registry hostname (default _image-registry.openshift-image-registry.svc:5000_)
 | --prefix                | Optional.  This is used to help separate user namespaces. |
-| --output                | Optional.  Output path.  |
+| --output                | Optional.  Output path.  (default is the current working directory|
 
 The following [directory layout](output) is generated.
 
