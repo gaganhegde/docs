@@ -1,13 +1,8 @@
 # Odo Pipelines Service Command
 
-
-## Service 
-
 ## Service add
 
-_Service_add_ command adds a new service to an existing environment.  Services are logically grouped by applications.   This command will create an application for the new service if the target application does not exist.  It outputs resources yaml files, kustomization files, and updated Manifest.  The following resources are written to filesystem.
-   
-* A new service with resources
+_Service_add_ command adds a new service to an existing environment.  Services are logically grouped by applications.   This command will create an application for the new service if the target application does not exist.  It outputs resources yaml files, kustomization files, and updated Manifest to filesystem.
 
 ```shell
 $ odo pipelines service add 
