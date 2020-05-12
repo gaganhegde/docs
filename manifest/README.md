@@ -11,24 +11,29 @@ Kustomize.
 
 ```yaml
 environments:
-- name: tst-dev
+- apps:
+  - name: service
+    services:
+    - service-svc
+  name: dev
   pipelines:
     integration:
-      binding: github-pr-binding
+      bindings:
+      - github-pr-binding
       template: app-ci-template
-  apps:
-  - name: taxi
-    services:
-    - name: taxi-svc
-      source_url: https://github.com/<username>/taxi.git
-      webhook:
-        secret:
-          name: github-webhook-secret-taxi-svc
-- name: tst-stage
-- name: tst-cicd
-  cicd: true
-- name: tst-argocd
-  argo: true
+  services:
+  - name: service-svc
+    source_url: https://github.com/user/service.git
+    webhook:
+      secret:
+        name: github-webhook-secret-service-svc
+        namespace: cicd
+- name: stage
+- cicd: true
+  name: cicd
+- argo: true
+  name: argocd
+gitops_url: https://github.com/user/gitops.git
 ```
 
 The bootstrap creates four environments, `dev`, `stage`, `cicd` and `argocd`
