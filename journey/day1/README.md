@@ -11,7 +11,7 @@ These commands are similar.  They are differ in what gets genreated.  The boostr
 
 You need to have the following installed in the OCP 4.x cluster.
 * OpenShift Pipelines Operators
-* [ArgoCD](prerequistes/#Install_ArgoCD)
+* [ArgoCD](prerequisites/#Install_ArgoCD)
 * Sealed Secrets
 
 
