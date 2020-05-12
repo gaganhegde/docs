@@ -1,8 +1,8 @@
 # Pipelines Model (aka Manifest)
 
-The Pipelines Model represents an inventory of _Environments_, _Applications_ and _Services_ within a GitOps setup.  This model allows tools to perform operations on Gitops setup without the needs to query cluster resources which is often hard if not impossible to do.  The actual execution of operations is still left to Git PullRequests to drive.
+The Pipelines Model represents an inventory of _Environments_, _Applications_ and _Services_ within a GitOps setup.  This model allows tools to perform operations on Gitops setup without the needs to query cluster resources which is often hard if not impossible to do.  The actual execution of operations is driven by Git PullRequests.  In other words, tools generate or update resources to be pushed to Git.
 
-Within a GitOps setup, there can be many [Environments](#Environment), [Applications](#Application), and [Services]/(#Service).  The folloing diagram shows the structure of the Pipelines Model.
+Within a GitOps setup, there can be many [Environments](#Environment), [Applications](#Application), and [Services](#Service).  The folloing diagram shows the structure of the Pipelines Model.
 
 
 ![Manifest Model](img/pipelines_model.png)
