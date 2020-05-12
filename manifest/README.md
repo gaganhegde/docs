@@ -9,6 +9,8 @@ Services are "per-environment", and multiple applications _within_ an
 environment can reference the same service, and override the configuration with
 Kustomize.
 
+![Manifest Model](img/manifest_model.png)
+
 ```yaml
 environments:
 - apps:
