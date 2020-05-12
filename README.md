@@ -1,5 +1,7 @@
 # GitOps 
 
-* [odo pipelines command reference](command_reference)
-* [pipelines model (aka manifest model)](model)
+* [Pipelines Model (aka manifest model)](model)
+* [GitOps Day 1 Operations](journey/day1)
+* [GitOps Day 2 Operations](journey/day2)
+* [Odo Pipelines Command Reference](command_reference)
 
