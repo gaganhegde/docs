@@ -29,10 +29,3 @@ $ oc get route -n argocd
 NAME            HOST/PORT                                                    PATH   SERVICES        PORT   TERMINATION     WILDCARD
 argocd-server   argocd-server-argocd.apps.gitops1.devcluster.openshift.com          argocd-server   http   edge/Redirect   None
 ```
-
-## Install Sealed Secret
-
-* _oc login_ as kubeadmin
-
-```shell
-oc apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.11.0/controller.yaml
