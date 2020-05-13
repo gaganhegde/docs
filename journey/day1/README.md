@@ -28,7 +28,8 @@ $ odo pipelines bootstrap \
   --gitops-repo-url https://github.com/<username>/gitops.git \
   --gitops-webhook-secret testing2 \
   --image-repo quay.io/<username>/taxi \
-  --dockercfgjson ~/Downloads/<username>-auth.json --prefix tst-
+  --dockercfgjson ~/Downloads/<username>-auth.json \
+  --prefix tst-
 ```
 
 **NOTE**: DO NOT use `testing` and `testing2` as your secrets.
@@ -58,24 +59,29 @@ pipeline and deployments from ArgoCD.
 
 ```yaml
 environments:
-- name: tst-dev
-  pipelines:
-    integration:
-      binding: github-pr-binding
-      template: app-ci-template
-  apps:
+- apps:
   - name: taxi
     services:
-    - name: taxi-svc
-      source_url: https://github.com/<username>/taxi.git
-      webhook:
-        secret:
-          name: github-webhook-secret-taxi-svc
+    - taxi-svc
+  name: tst-dev
+  pipelines:
+    integration:
+      bindings:
+      - github-pr-binding
+      template: app-ci-template
+  services:
+  - name: taxi-svc
+    source_url: https://github.com/<username>/taxi.git
+    webhook:
+      secret:
+        name: github-webhook-secret-taxi-svc
+        namespace: tst-cicd
 - name: tst-stage
-- name: tst-cicd
-  cicd: true
-- name: tst-argocd
-  argo: true
+- cicd: true
+  name: tst-cicd
+- argo: true
+  name: tst-argocd
+gitops_url: https://github.com/<user name>/gitops.git
 ```
 
 The bootstrap creates four environments, `dev`, `stage`, `cicd` and `argocd`
@@ -96,19 +102,23 @@ The `tst-dev` environment created is the most visible configuration.
 
 ```yaml
 environments:
+- apps:
+  - name: taxi
+    services:
+    - taxi-svc
 - name: tst-dev
   pipelines:
     integration:
-      binding: github-pr-binding
+      bindings:
+      - github-pr-binding
       template: app-ci-template
-  apps:
-  - name: taxi
-    services:
-    - name: taxi-svc
-      source_url: https://github.com/<username>/taxi.git
-      webhook:
-        secret:
-          name: github-webhook-secret-taxi-svc
+  services:
+  - name: taxi-svc
+    source_url: https://github.com/wtam2018/taxi.git
+    webhook:
+      secret:
+        name: github-webhook-secret-taxi-svc
+        namespace: tst-cicd      
 ```
 
 The `pipelines` key describes how to trigger a Tekton PipelineRun, the
@@ -118,7 +128,7 @@ is opened.
 This is the default pipeline specification for the `tst-dev` environment, you
 can find the definitions for these in these two files:
 
- * `environments/<prefix>cicd/base/pipelines/07-templates/app-ci-build-pr-template.yaml`
+ * [`environments/<prefix>cicd/base/pipelines/07-templates/app-ci-build-pr-template.yaml`](output/environments/tst-cicd/base/pipelines/07-templates/app-ci-build-pr-template.yaml)
  * `environments/<prefix>cicd/base/pipelines/06-bindings/github-pr-binding.yaml`
 
 By default this triggers a PipelineRun of this pipeline
