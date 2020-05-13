@@ -149,9 +149,15 @@ The new Service/Application will be deployed by ArgoCD.   An ArgoCD application 
 
 * [`environments/<prefix>argocd/config/<env>-<app>-app.yaml`](output/environments/tst-argocd/config/new-env-bus-app.yaml)
 
-In the CI/CD Environment, a few resources are added or modified.
+In the CI/CD Environment, a couple of resources are added or modified.
+
+Webhook secret resource is generated.
 
 * [`environments/<prefix>cicd/base/pipelines/03-secrets/github-webhook-secret-<service>.yaml`](output/environments/tst-cicd/base/pipelines/03-secrets/github-webhook-secret-bus-svc.yaml)
+
+The Event Listener is modified.
+* [`environments/<prefix>cicd/base/pipelines/08-eventlisteners/cicd-event-listener.yaml`](output/environment/tst-cicd/base/pipelines/08-eventlisteners/cicd-envent-listener.yaml)
+
 
 
 
