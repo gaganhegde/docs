@@ -151,7 +151,7 @@ The new Service/Application will be deployed by ArgoCD.   An ArgoCD application 
 
 In the CI/CD Environment, a few resources are added or modified.
 
-* [`environments/<prefix>cicd/base/03-secrets/github-webhook-secret-<service>.yaml](output/environments/tst-cicd/base/03-secrets/github-webhook-secret-bus-svc.yaml)
+* [`environments/<prefix>cicd/base/03-secrets/github-webhook-secret-<service>.yaml`](output/environments/tst-cicd/base/03-secrets/github-webhook-secret-bus-svc.yaml)
 
 
 
