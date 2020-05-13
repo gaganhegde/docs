@@ -266,45 +266,34 @@ Pull Request.
 
 This should trigger the PipelineRun:
 
-![PipelineRun with succesful completion](img/ocp/pipelinerun-success.png)
+![PipelineRun with succesful completion](img/pipelinerun-success.png)
 
 Drilling into the PipelineRun we can see that it executed our single task:
 
-![PipelineRun with steps](img/ocp/pipelinerun-succeeded-detail.png)
+![PipelineRun with steps](img/pipelinerun-succeeded-detail.png)
 
 And finally, we can see the logs that the build completed and the image was
 pushed:
 
-![PipelineRun with logs](img/ocp/pipelinerun-succeeded-logs.png)
+![PipelineRun with logs](img/pipelinerun-succeeded-logs.png)
 
 ## Changing the default CI run
-
-Before this next stage, we need to ensure that there's a Webhook configured for
-the "gitops" repo.
-
-You will need to create a new Webhook for the CI:
-
-![Creating a Webhook with a Secret](img/github/create-github-webhook.png)
-
-It will need to be configured with the secret that you used when creating the
-manifest.
 
 This step involves changing the CI definition for your application code.
 
 The default CI pipeline we provide is defined in the manifest file:
 
-```
-environments:
-- name: tst-dev
+```yaml
   pipelines:
     integration:
-      binding: github-pr-binding
+      bindings:
+      - github-pr-binding
       template: app-ci-template
 ```
 
 This template drives a Pipeline that is stored in this file:
 
- * `environments/<prefix>cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml`
+ * [`environments/<prefix>cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml`](output/environments/tst-cicd/base/pipelines/05-pipelines/app-ci-pipeline.yam)
 
 An abridged version is shown below, it has a single task `build-image`, which
 executes the `buildah` task, which basically builds the source and generates an
@@ -332,7 +321,7 @@ code:
 
 Write the following Task to this file:
 
- * `environments/<prefix>cicd/base/pipelines/04-tasks/go-test-task.yaml`
+ * [`environments/<prefix>cicd/base/pipelines/04-tasks/go-test-task.yaml`](output/environments/tst-cicd/base/pipelines/04-tasks/go-test-task.yaml)
 
 ```yaml
 apiVersion: tekton.dev/v1alpha1
@@ -356,7 +345,7 @@ This is a simple test task for a Go application, it just runs the tests.
 
 Update the pipeline in this file:
 
- * `environments/<prefix>cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml`
+ * [`environments/<prefix>cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml`](output/environments/tst-cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml)
 
 
 ```yaml
@@ -407,8 +396,7 @@ spec:
 Commit and push this code, and open a Pull Request, you should see a PipelineRun
 being executed.
 
-![PipelineRun doing a dry run of the configuration](img/ocp/pipelinerun-dryrun.png)
+![PipelineRun doing a dry run of the configuration](img/pipelinerun-dryrun.png)
 
 This validates that the YAML can be applied, by executing a `kubectl apply --dry-run`.
 
-## Adding an additional application
