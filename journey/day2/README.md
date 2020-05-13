@@ -22,10 +22,6 @@ $ odo pipelines environment add \
   --env-name new-env
 ```
 
-| Option                  | Description |
-| ----------------------- | ----------- |
-| --env-name  | New environment name |
-
 The above command adds a new Environment `new-env` in the Pipelines Model.
 
 ```yaml
@@ -45,15 +41,45 @@ $ odo pipelines service add \
   --env-name new-env \
   --app-name bus \
   --service-name bus-svc \
-  --git-repo-url http://github.com/wtam2018/bus.git \
+  --git-repo-url http://github.com/<user>/bus.git \
   --webhook-secret testing 
 ```
 
-| Option                  | Description |
-| ----------------------- | ----------- |
-| --env-name  | Environment name. |
-| --app-name  | Application name.  A new Application will be created if it does not exist already.|
-| --service-name  | New Service Application name. |
-|  --git-repo-url   | Source Git repository URL. |
-|  --webhook-secret   | Webhook secret for the Git repository |
+**NOTE**: DO NOT use `testing` as your secrets.
+
+Per the (GitHub documentation)[https://developer.github.com/webhooks/securing/]
+you should generate a secret for each of them:
+
+```shell
+$ ruby -rsecurerandom -e 'puts SecureRandom.hex(20)'
+```
+
+The above command adds a new Service and Application under new-env in the Pipelines Model.
+
+```yaml
+environments:
+- apps:
+  - name: bus
+    services:
+    - bus-svc
+  name: new-env
+  services:
+  - name: bus-svc
+    source_url: http://github.com/<user>/bus.git
+    webhook:
+      secret:
+        name: github-webhook-secret-bus-svc
+        namespace: tst-cicd
+```
+
+It generates the following yamls.  The new resources are namespace and role bindings.
+
+* [`environments/new-env/apps/bus/base/kustomization.yaml`](output/environments/new-env/apps/bus/base/kustomization.yaml)
+
+*[`environments/new-env/base-env/services/bus-svc/base`](output/environments/new-env/base-env/services/bus-svc/base)
+
+
+
+
+
 
