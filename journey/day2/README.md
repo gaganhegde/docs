@@ -82,7 +82,7 @@ In the Service's folder, an empty `config` folder is ccreated.   This is the fol
 
 In this exxmple, We will just deploy a dummy nginxinc image and add the following files into `config` folder.
 
-`100-deployment.yaml`
+* `100-deployment.yaml`
 
 ```yaml
 apiVersion: apps/v1
@@ -114,7 +114,7 @@ spec:
 status: {}
 ```
 
-`200-service.yaml`
+* `200-service.yaml`
 ```yaml
 
 apiVersion: v1
@@ -137,12 +137,21 @@ status:
   loadBalancer: {}
 ```
 
-`kustomization.yaml`
+* `kustomization.yaml`
+
 ```yaml
 resources:
 - 100-deployment.yaml
 - 200-service.yaml
 ```
+
+The new Service/Application will be deployed by ArgoCD.   An ArgoCD application yaml is generated in the ArgoCD environment.
+
+* [`environments/<prefix>argocd/config/<env>-<app>-app.yaml`](output/environments/tst-argocd/config/new-env-bus-app.yaml)
+
+In the CI/CD Environment, a few resources are added or modified.
+
+* [`environments/<prefix>cicd/base/03-secrets/github-webhook-secret-<service>.yaml](output/environments/tst-cicd/base/03-secrets/github-webhook-secret-bus-svc.yaml)
 
 
 
