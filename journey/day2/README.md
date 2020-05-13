@@ -156,6 +156,7 @@ Webhook secret resource is generated.
 * [`environments/<prefix>cicd/base/pipelines/03-secrets/github-webhook-secret-<service>.yaml`](output/environments/tst-cicd/base/pipelines/03-secrets/github-webhook-secret-bus-svc.yaml)
 
 The Event Listener is modified.
+
 * [`environments/<prefix>cicd/base/pipelines/08-eventlisteners/cicd-event-listener.yaml`](output/environment/tst-cicd/base/pipelines/08-eventlisteners/cicd-event-listener.yaml)
 
 
