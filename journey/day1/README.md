@@ -160,7 +160,7 @@ The YAML above defines an app called `taxi`, which has a reference to service ca
 
 The configuration for these is written out to:
 
- * [`environments/test-dev/services/taxi-svc/base/config/`](/output/environments/tst-dev/services/taxi-svc/base/config)
+ * [`environments/test-dev/services/taxi-svc/base/config/`](output/environments/tst-dev/services/taxi-svc/base/config)
  * [`environments/<prefix>dev/apps/taxi/base/`](output/environments/tst-dev/apps/taxi/base/)
 
 The `taxi` app's configuration references the services configuration.
