@@ -129,7 +129,7 @@ This is the default pipeline specification for the `tst-dev` environment, you
 can find the definitions for these in these two files:
 
  * [`environments/<prefix>cicd/base/pipelines/07-templates/app-ci-build-pr-template.yaml`](output/environments/tst-cicd/base/pipelines/07-templates/app-ci-build-pr-template.yaml)
- * `environments/<prefix>cicd/base/pipelines/06-bindings/github-pr-binding.yaml`
+ * [`environments/<prefix>cicd/base/pipelines/06-bindings/github-pr-binding.yaml`](output/environments/tst-cicd/base/pipelines/06-bindings/github-pr-binding.yaml)
 
 By default this triggers a PipelineRun of this pipeline
 
