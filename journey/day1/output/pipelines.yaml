@@ -1,0 +1,24 @@
+environments:
+- apps:
+  - name: taxi
+    services:
+    - taxi-svc
+  name: tst-dev
+  pipelines:
+    integration:
+      bindings:
+      - github-pr-binding
+      template: app-ci-template
+  services:
+  - name: taxi-svc
+    source_url: https://github.com/wtam2018/taxi.git
+    webhook:
+      secret:
+        name: github-webhook-secret-taxi-svc
+        namespace: tst-cicd
+- name: tst-stage
+- cicd: true
+  name: tst-cicd
+- argo: true
+  name: tst-argocd
+gitops_url: https://github.com/wtam2018/gitops.git
