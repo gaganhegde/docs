@@ -157,7 +157,7 @@ Webhook secret resource is generated.
 
 The Event Listener is modified.
 
-* [`environments/<prefix>cicd/base/pipelines/08-eventlisteners/cicd-event-listener.yaml`](output/environment/tst-cicd/base/pipelines/08-eventlisteners/cicd-event-listener.yaml)
+* [`environments/<prefix>cicd/base/pipelines/08-eventlisteners/cicd-event-listener.yaml`](output/environments/tst-cicd/base/pipelines/08-eventlisteners/cicd-event-listener.yaml)
 
 
 
