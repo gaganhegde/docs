@@ -188,8 +188,31 @@ $ git push -u origin master
 This should initialise the GitOps repository, this is the start of your journey
 to deploying applications via Git.
 
+Note: Workaround a OpenShift Route bug by removing the `Status:` field.
+
+[`environments/<prefix>cicd/base/pipelines/09-routes/gitops-webhook-event-listener.yaml`](output/environments/tst-cicd/base/pipelines/09-routes/gitops-webhook-event-listener.yaml)
+
+```yaml
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  creationTimestamp: null
+  name: gitops-webhook-event-listener-route
+  namespace: tst-cicd
+spec:
+  host: ""
+  port:
+    targetPort: 8080
+  subdomain: ""
+  to:
+    kind: Service
+    name: el-cicd-event-listener
+    weight: 100
+  wildcardPolicy: None
+  ```
 Next, we'll bring up our deployment infrastructure, this is only necessary at the
 start, the configuration should be self-hosted thereafter.
+
 
 ```shell
 $ oc apply -k environments/tst-dev/env/base
@@ -236,14 +259,6 @@ $ odo pipelines webhook create \
     --env-name tst-dev
     --service-name taxi-svc
 ```
-
-
-Configure the endpoint to point at the route for the EventListener in the
-`-cicd` project in OpenShift.
-
-Make sure you change the Content Type to `"application/json"` and enable the
-"send me everything" option for events (otherwise we'll only receive
-"push" events).
 
 Make a change to your application source, the `taxi` repo from the example, it
 can be as simple as editing the `README.md` and propose a change as a
