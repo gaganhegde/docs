@@ -72,12 +72,77 @@ environments:
         namespace: tst-cicd
 ```
 
-It generates the following yamls.  The new resources are namespace and role bindings.
+In the Application's folder, a kustomization.yaml is generated to reference the Service we created.
 
 * [`environments/new-env/apps/bus/base/kustomization.yaml`](output/environments/new-env/apps/bus/base/kustomization.yaml)
 
+In the Service's folder, an empty `config` folder is ccreated.   This is the folder to add deployment yaml files to specify how the Service should be deployed.
+
 * [`environments/new-env/services/bus-svc/base`](output/environments/new-env/services/bus-svc/base)
 
+In this exxmple, We will just deploy a dummy nginxinc image and add the following files into `config` folder.
+
+`100-deployment.yaml`
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: bus-svc
+  namespace: new-env
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: bus-svc
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/name: bus-svc
+    spec:
+      containers:
+      - image: nginxinc/nginx-unprivileged:latest
+        imagePullPolicy: Always
+        name: bus-svc
+        ports:
+        - containerPort: 8080
+        resources: {}
+      serviceAccountName: default
+status: {}
+```
+
+`200-service.yaml`
+```yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/name: bus-svc
+  name: bus-svc
+  namespace: new-env
+spec:
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app.kubernetes.io/name: bus-svc
+status:
+  loadBalancer: {}
+```
+
+`kustomization.yaml`
+```yaml
+resources:
+- 100-deployment.yaml
+- 200-service.yaml
+```
 
 
 
