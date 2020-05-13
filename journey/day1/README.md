@@ -1,6 +1,6 @@
 # Day 1 Operations
 
-Day 1 Operations are actions that users take to  bootstrap a GitOps system.   Bootstrapping GitOps can be done in one of the two commands.
+Day 1 Operations are actions that users take to bootstrap a GitOps system.   Bootstrapping GitOps can be done in one of the two commands.
 
 * [odo pipelines bootstrap](../../commands/bootstrap)
 * [oad pipelines init](../../commands/init)
