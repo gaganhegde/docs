@@ -13,7 +13,8 @@ You need to have the following installed in the OCP 4.x cluster.
 * OpenShift Pipelines Operators
 * [ArgoCD](prerequisites/argocd.md)
 * [Sealed Secrets](prerequisites/sealed_secrets.md)
-* [GitOps repository](prerequisites/gitops_repo.md)
+* Create [GitOps repository](prerequisites/gitops_repo.md)
+* Source Git repository (using [taxi](prerequisites/service_repo.md) as an example in this document)
 
 
 
