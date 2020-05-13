@@ -221,9 +221,22 @@ Part of the configuration bootstraps a simple TektonCD pipeline for building cod
 
 You will need to create a new Webhook for the CI:
 
-![Creating a Webhook with a Secret](img/github/create-github-webhook.png)
+Create webhook for CI/CD Pipelines configuration repository.
 
-The secret should be the secret you provided on the command-line.
+```shell
+$ odo pipelines webhook create \
+    --access-token <github user access token>
+    --cidi
+```
+Create webhook for source repository
+
+```shell
+$ odo pipelines webhook create \
+    --access-token <github user access token>
+    --env-name tst-dev
+    --service-name taxi-svc
+```
+
 
 Configure the endpoint to point at the route for the EventListener in the
 `-cicd` project in OpenShift.
