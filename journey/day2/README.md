@@ -155,9 +155,71 @@ Webhook secret resource is generated.
 
 * [`environments/<prefix>cicd/base/pipelines/03-secrets/github-webhook-secret-<service>.yaml`](output/environments/tst-cicd/base/pipelines/03-secrets/github-webhook-secret-bus-svc.yaml)
 
-The Event Listener is modified.
+The Event Listener is modified to add a `trigger` for the new Service's source repository to trigger continous integration.
 
 * [`environments/<prefix>cicd/base/pipelines/08-eventlisteners/cicd-event-listener.yaml`](output/environments/tst-cicd/base/pipelines/08-eventlisteners/cicd-event-listener.yaml)
+
+```yaml
+ - bindings:
+    - name: github-pr-binding
+    interceptors:
+    - cel:
+        filter: (header.match('X-GitHub-Event', 'pull_request') && body.action ==
+          'opened' || body.action == 'synchronize') && body.pull_request.head.repo.full_name
+          == '<user>/<service>'
+    - github:
+        secretRef:
+          namespace: tst-cicd
+          secretKey: webhook-secret-key
+          secretName: github-webhook-secret-bus-svc
+    name: app-ci-build-from-pr-<service>-svc
+    template:
+      name: app-ci-template
+```
+## OC Apply Resources
+
+```shell
+$ oc apply -k environments/<prefix>cicd/base
+$ oc apply -k environments/<prefix>-argocd/config/
+$ oc apply -k environments/new-env/env/base/
+```
+
+## Create Webhook
+
+Create a webhook for the new source repository.
+
+```shell
+$ odo pipelines webhook create \
+    --access-token \
+    --env-name new-env \
+    --service-name bus-svc
+```
+
+## Commit and Push configuration to GitOps repoository
+
+```shell
+$ git add .
+$ git commit -m "Add new service"
+$ git push origin master
+```
+
+CD Pipeline is triggered and run successfully.
+![cd-pipelines-success.png](img/cd-pipelines-success.png)
+
+New Application is deployed by ArgoCD successfully.
+![argocd.png](img/argocd.png)
+
+Make a change to your application source, the `bus` repo from the example, it
+can be as simple as editing the `README.md` and propose a change as a
+Pull Request.
+
+This should trigger the PipelineRun:
+
+![PipelineRun triggered](img/ci-pipeline-run.png)
+
+
+
+
 
 
 
