@@ -143,22 +143,25 @@ of your repository.
 ### configuring services
 
 ```yaml
-apps:
-- name: taxi
+- apps:
+  - name: taxi
+    services:
+    - taxi-svc
   services:
   - name: taxi-svc
-    source_url: https://github.com/<username>/taxi.git
+    source_url: https://github.com/wtam2018/taxi.git
     webhook:
       secret:
         name: github-webhook-secret-taxi-svc
+        namespace: tst-cicd    
 ```
 
-The YAML above defines an app called `taxi`, which has a single service called `taxi-svc`.
+The YAML above defines an app called `taxi`, which has a reference to service called `taxi-svc`.
 
 The configuration for these is written out to:
 
- * `environments/<prefix>dev/services/taxi-svc/base/config/`
- * `environments/<prefix>dev/apps/taxi/base/config/`
+ * [`environments/test-dev/services/taxi-svc/base/config/`](/output/environments/tst-dev/services/taxi-svc/base/config)
+ * [`environments/<prefix>dev/apps/taxi/base/`](output/environments/tst-dev/apps/taxi/base/)
 
 The `taxi` app's configuration references the services configuration.
 
