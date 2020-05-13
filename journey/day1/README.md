@@ -133,7 +133,7 @@ can find the definitions for these in these two files:
 
 By default this triggers a PipelineRun of this pipeline
 
- * `environments/<prefix>cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml`
+ * [`environments/<prefix>cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml`](output/environments/tst-cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml)
 
 These files are not managed directly by the manifest, you're free to change them
 for your own needs, by default they use [Buildah](https://github.com/containers/buildah)
