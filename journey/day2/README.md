@@ -31,5 +31,5 @@ environments:
 
 It generates the following yamls.
 
-* [`environments/<env-name>/env/base/<env-name>-environment.yaml`](output/environments/new-env/base/new-env-environment.yaml)
-* [`environments/<env-name>/env/base/<env-name>-rolebindings.yaml`](output/environments/env-env/base/new-env-rolebindgs.yaml)
+* [`environments/<env-name>/env/base/<env-name>-environment.yaml`](output/environments/new-env/env/base/new-env-environment.yaml)
+* [`environments/<env-name>/env/base/<env-name>-rolebindings.yaml`](output/environments/env-env/env/base/new-env-rolebindgs.yaml)
