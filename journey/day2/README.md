@@ -1,53 +1,35 @@
-# Odo Pipelines Webhook Command
+# Day 2 Operations
 
-* [webhook create](#Wehbook-create)
-* [webhook delete](#Webhook-delete)
-* [webhook list](#Webhook-list)
+Day 2 Operations are actions that users take to  change a GitOps system. 
+Currently, the following odo commands are available to allow users to add new
+Evnrionments and Applications/Services.
 
-## Webhook create
+* [odo pipelines environment](../../commands/environment)
+* [oad pipelines service](../../commands/service)
+* [oad pipelines webhook](../../commands/webhook)
 
-_Webhook create_ command creates a webhook on target Git repository using secret and Event Listener address retrieved from cluster.   If a webhook (with the same Event Listener address URL) already exists, a webhook will not be created.  Otherwise, a webhook will be created and the ID of the new webhook is written to standard output.
 
-```shell
-$ odo pipelines webhook create 
-    --access-token 
-    [--cicd] | [--env-name --service-name]
-    [--manifest]
-```
-| Option                  | Description |
-| ----------------------- | ----------- |
-| --access-token | Access token to be used to operate on Git repository.|
-| --cicd, --env-name, --service-name | Specify --cicd flag if the target Git repository is a CI/CD configuration repository.  Otherwise, provide environment and service names if the target Git repository is a service's source repository.  Either --cicd or both --env-name and --service-name must be provided.|  
-| --manifest | Optional.  Path to manifest file.  Default is _pipelines.yaml_. |
+## Prerequisites
 
-## Webhook delete
+* A GitOps system that was bootstrapped in [Day 1 Operations](../day1)
+* A new soruce Git repository
+* Download unofficial [odo](../../commands/bin) binary
 
-_Webhook delete_ command deletes all webhooks from Git repository that contains the target Event Listener address.  Event Listener address is retrieved from cluster based on the options passed to the command.  The IDs of the deleted webhooks will be written to standard output.
+## Create a new Environment
 
 ```shell
-$ odo pipelines webhook delete 
-    --access-token 
-    [--cicd] | [--env-name --service-name]
-    [--manifest]
+$ odo pipelines environment add \
+  --env-name new-env
 ```
-| Option                  | Description |
-| ----------------------- | ----------- |
-| --access-token | Access token to be used to operate on Git repository.|
-| --cicd, --env-name, --service-name | Specify --cicd flag if the target Git repository is a CI/CD configuration repository.  Otherwise, provide environment and service names if the target Git repository is a service's source repository.  Either --cicd or both --env-name and --service-name must be provided.|  
-| --manifest | Optional.  Path to manifest file.  Default is _pipelines.yaml_. |
 
-## Webhook list
+The above command adds a new Environment `new-env` in the Pipelines Model.
 
-_Webhook list_ command displays webhook IDs of Git repository that contains the target Event Listener address.  Event Listener address is retrieved from cluster based on the options passed to the command.  The IDs of the found webhooks will be written to standard output.
-
-```shell
-$ odo pipelines webhook list 
-    --access-token 
-    [--cicd] | [--env-name --service-name]
-    [--manifest]
+```yaml
+environments:
+- name: new-env
 ```
-| Option                  | Description |
-| ----------------------- | ----------- |
-| --access-token | Access token to be used to operate on Git repository.|
-| --cicd, --env-name, --service-name | Specify --cicd flag if the target Git repository is a CI/CD configuration repository.  Otherwise, provide environment and service names if the target Git repository is a service's source repository.  Either --cicd or both --env-name and --service-name must be provided.|  
-| --manifest | Optional.  Path to manifest file.  Default is _pipelines.yaml_. |
+
+It generates the following yamls.
+
+* [`environments/<env-name>/env/base/<env-name>-environment.yaml`](output/environments/new-env/env/base/new-env-environment.yaml)
+* [`environments/<env-name>/env/base/<env-name>-rolebindings.yaml`](output/environments/env-env/env/base/new-env-rolebindgs.yaml)
