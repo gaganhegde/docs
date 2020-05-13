@@ -244,15 +244,6 @@ Part of the configuration bootstraps a simple TektonCD pipeline for building cod
 
 You will need to create a new Webhook for the CI:
 
-Create webhook for CI/CD Pipelines configuration repository.
-
-```shell
-$ odo pipelines webhook create \
-    --access-token <github user access token>
-    --cidi
-```
-Create webhook for source repository
-
 ```shell
 $ odo pipelines webhook create \
     --access-token <github user access token>
@@ -279,6 +270,15 @@ pushed:
 
 ## Changing the default CI run
 
+Before this next stage, we need to ensure that there's a Webhook configured for
+the "gitops" repo.
+
+```shell
+$ odo pipelines webhook create \
+    --access-token <github user access token>
+    --cidi
+```
+
 This step involves changing the CI definition for your application code.
 
 The default CI pipeline we provide is defined in the manifest file:
@@ -293,7 +293,7 @@ The default CI pipeline we provide is defined in the manifest file:
 
 This template drives a Pipeline that is stored in this file:
 
- * [`environments/<prefix>cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml`](output/environments/tst-cicd/base/pipelines/05-pipelines/app-ci-pipeline.yam)
+ * [`environments/<prefix>cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml`](output/environments/tst-cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml)
 
 An abridged version is shown below, it has a single task `build-image`, which
 executes the `buildah` task, which basically builds the source and generates an
@@ -321,7 +321,7 @@ code:
 
 Write the following Task to this file:
 
- * [`environments/<prefix>cicd/base/pipelines/04-tasks/go-test-task.yaml`](output/environments/tst-cicd/base/pipelines/04-tasks/go-test-task.yaml)
+ * `environments/<prefix>cicd/base/pipelines/04-tasks/go-test-task.yaml`
 
 ```yaml
 apiVersion: tekton.dev/v1alpha1
