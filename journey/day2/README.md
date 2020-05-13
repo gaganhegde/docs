@@ -76,7 +76,7 @@ It generates the following yamls.  The new resources are namespace and role bind
 
 * [`environments/new-env/apps/bus/base/kustomization.yaml`](output/environments/new-env/apps/bus/base/kustomization.yaml)
 
-*[`environments/new-env/base-env/services/bus-svc/base`](output/environments/new-env/base-env/services/bus-svc/base)
+* [`environments/new-env/services/bus-svc/base`](output/environments/new-env/services/bus-svc/base)
 
 
 
