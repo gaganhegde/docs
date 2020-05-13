@@ -11,30 +11,34 @@ Evnrionments and Applications/Services.
 
 ## Prerequisites
 
-* A GitOps system that was bootstrapped in [Day 1 Operations](../day1)
-* A new soruce Git repository
+* A GitOps system that has been bootstrapped in [Day 1 Operations](../day1)
+* A new Git repository to be used as the new Service's source repository. 
 * Download unofficial [odo](../../commands/bin) binary
 
 ## Create a new Environment
+
+To generate resources for a new Environment, you simiply run this command.
 
 ```shell
 $ odo pipelines environment add \
   --env-name new-env
 ```
 
-The above command adds a new Environment `new-env` in the Pipelines Model.
+It adds a new Environment `new-env` in the Pipelines Model.
 
 ```yaml
 environments:
 - name: new-env
 ```
 
-It generates the following yamls.  The new resources are namespace and role bindings.
+And, it generates the following yamls.  The new resources are namespace and role bindings.
 
 * [`environments/<env-name>/env/base/<env-name>-environment.yaml`](output/environments/new-env/env/base/new-env-environment.yaml)
 * [`environments/<env-name>/env/base/<env-name>-rolebindings.yaml`](output/environments/new-env/env/base/new-env-rolebindgs.yaml)
 
 ## Create an Application/Service in the new Environment
+
+To generate resources for the new Serivce, run the foolowing command.
 
 ```shell
 $ odo pipelines service add \
@@ -54,7 +58,7 @@ you should generate a secret for each of them:
 $ ruby -rsecurerandom -e 'puts SecureRandom.hex(20)'
 ```
 
-The above command adds a new Service and Application under new-env in the Pipelines Model.
+The `service add` command adds a new Service and Application under `new-env` Environment in the Pipelines Model as below.
 
 ```yaml
 environments:
@@ -72,15 +76,15 @@ environments:
         namespace: tst-cicd
 ```
 
-In the Application's folder, a kustomization.yaml is generated to reference the Service we created.
+In the Application's folder, a kustomization.yaml is generated to reference the new Service.
 
 * [`environments/new-env/apps/bus/base/kustomization.yaml`](output/environments/new-env/apps/bus/base/kustomization.yaml)
 
-In the Service's folder, an empty `config` folder is ccreated.   This is the folder to add deployment yaml files to specify how the Service should be deployed.
+In the Service's folder, an empty `config` folder is created.   This is the folder you will add `deployment yaml` files to specify how the Service should be deployed.
 
 * [`environments/new-env/services/bus-svc/base`](output/environments/new-env/services/bus-svc/base)
 
-In this exxmple, We will just deploy a dummy nginxinc image and add the following files into `config` folder.
+Similar to the Day 1 example, we will just deploy a dummy nginxinc image.  The following files should be added to `config` folder.
 
 * `100-deployment.yaml`
 
@@ -155,7 +159,7 @@ Webhook secret resource is generated.
 
 * [`environments/<prefix>cicd/base/pipelines/03-secrets/github-webhook-secret-<service>.yaml`](output/environments/tst-cicd/base/pipelines/03-secrets/github-webhook-secret-bus-svc.yaml)
 
-The Event Listener is modified to add a `trigger` for the new Service's source repository to trigger continous integration.
+The Event Listener is modified as below to add a `trigger` for the new Service's source repository to trigger continous integration.
 
 * [`environments/<prefix>cicd/base/pipelines/08-eventlisteners/cicd-event-listener.yaml`](output/environments/tst-cicd/base/pipelines/08-eventlisteners/cicd-event-listener.yaml)
 
@@ -178,6 +182,8 @@ The Event Listener is modified to add a `trigger` for the new Service's source r
 ```
 ## OC Apply Resources
 
+Now, run `oc apply` to apply the gnerated resources to the cluster.
+
 ```shell
 $ oc apply -k environments/<prefix>cicd/base
 $ oc apply -k environments/<prefix>-argocd/config/
@@ -186,7 +192,7 @@ $ oc apply -k environments/new-env/env/base/
 
 ## Create Webhook
 
-Create a webhook for the new source repository.
+Create a webhook for the new source repository.   This will allow webhook on the source repository to trigger CI Pipeline to run continuous integration on the new Service's source.
 
 ```shell
 $ odo pipelines webhook create \
@@ -196,6 +202,8 @@ $ odo pipelines webhook create \
 ```
 
 ## Commit and Push configuration to GitOps repoository
+
+Next, we push all the new resources and configurations to GitOps Git repository.
 
 ```shell
 $ git add .
