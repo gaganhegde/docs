@@ -34,7 +34,7 @@ $ odo pipelines bootstrap \
 
 **NOTE**: DO NOT use `testing` and `testing2` as your secrets.
 
-Per the (GitHub documentation)[https://developer.github.com/webhooks/securing/]
+Per the [GitHub documentation](https://developer.github.com/webhooks/securing/)
 you should generate a secret for each of them:
 
 ```shell
