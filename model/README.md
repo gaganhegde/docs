@@ -58,7 +58,7 @@ Within a Pipelines Model, there are many Environments which hold Applications an
 
 ## Application
 
-An Application is a logical grouping of Services.  It contains references to Services.  When an Application is deployed, all referenced Services are deployed.  Two Applications can reference to a same Service.  Each Application can have specific customization to the Service it references/deploys.  A Service cannot be deployed by itself (without an Application).
+An Application is a logical grouping of Services.  It contains references to Services.  When an Application is deployed, all referenced Services are deployed.  Two Applications can reference to a same Service.  Each Application can have specific customization to the Service it references/deploys.  A Service is not intendedto  be deployed by itself (without an Application).
 
 ## Service
 
