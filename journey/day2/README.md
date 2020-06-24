@@ -5,8 +5,8 @@ Currently, the following odo commands are available to allow users to add new
 Evnrionments and Applications/Services.
 
 * [odo pipelines environment](../../commands/environment)
-* [oad pipelines service](../../commands/service)
-* [oad pipelines webhook](../../commands/webhook)
+* [odo pipelines service](../../commands/service)
+* [odo pipelines webhook](../../commands/webhook)
 
 
 ## Prerequisites
