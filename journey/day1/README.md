@@ -216,8 +216,8 @@ start, the configuration should be self-hosted thereafter.
 
 ```shell
 $ oc apply -k environments/tst-dev/env/base
-$ oc apply -k environments/tst-argocd/config
-$ oc apply -k environments/tst-cicd/base
+$ oc apply -k config/tst-argocd/config
+$ oc apply -k config/tst-cicd/base
 ```
 
 You should now be able to create a route to your new service, it should be
