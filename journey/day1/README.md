@@ -15,9 +15,9 @@ $ export ODO_EXPERIMENTAL=true
 ```
 
 You need to have the following installed in the OCP 4.x cluster.
-* [Sealed Secrets Operator](prerequisites/sealed_secrets.md) (needed to run "odo pipelines" command)
-* OpenShift Pipelines Operators (needed when generated yamls are applied)
-* [ArgoCD](prerequisites/argocd.md) (needed when generated yamls are applied)
+* [Sealed Secrets Operator](prerequisites/sealed_secrets.md)
+* [OpenShift Pipelines Operator](prerequisites/tekton_operator.md)
+* [ArgoCD](prerequisites/argocd.md)
 
 And, you will need this.
 * Create [GitOps repository](prerequisites/gitops_repo.md)
