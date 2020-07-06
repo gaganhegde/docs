@@ -8,8 +8,11 @@ rules:
   - ""
   resources:
   - namespaces
+  - services
   verbs:
   - patch
+  - get
+  - create
 - apiGroups:
   - rbac.authorization.k8s.io
   resources:
@@ -21,8 +24,10 @@ rules:
   - rbac.authorization.k8s.io
   resources:
   - clusterrolebindings
+  - rolebindings
   verbs:
   - get
+  - create
   - patch
 - apiGroups:
   - bitnami.com
@@ -32,3 +37,19 @@ rules:
   - get
   - patch
   - create
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - get
+  - create
+  - patch
+- apiGroups:
+  - argoproj.io
+  resources:
+  - applications
+  verbs:
+  - get
+  - create
+  - patch

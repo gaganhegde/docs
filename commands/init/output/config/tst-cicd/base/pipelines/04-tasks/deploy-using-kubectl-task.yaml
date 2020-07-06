@@ -1,28 +1,27 @@
-apiVersion: tekton.dev/v1alpha1
+apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   creationTimestamp: null
   name: deploy-using-kubectl-task
-  namespace: cicd
+  namespace: tst-cicd
 spec:
-  inputs:
-    params:
-    - default: deploy
-      description: Path to the pipelines to apply
-      name: PATHTODEPLOYMENT
-      type: string
-    - description: Namespace to deploy into
-      name: NAMESPACE
-      type: string
-    - default: "false"
-      description: If true run a server-side dryrun.
-      name: DRYRUN
-      type: string
-    - description: The path to the image to replace in the yaml pipelines (arg to
-        yq)
-      name: YAMLPATHTOIMAGE
-      type: string
-    resources:
+  params:
+  - default: deploy
+    description: Path to the pipelines to apply
+    name: PATHTODEPLOYMENT
+    type: string
+  - description: Namespace to deploy into
+    name: NAMESPACE
+    type: string
+  - default: "false"
+    description: If true run a server-side dryrun.
+    name: DRYRUN
+    type: string
+  - description: The path to the image to replace in the yaml pipelines (arg to yq)
+    name: YAMLPATHTOIMAGE
+    type: string
+  resources:
+    inputs:
     - name: source
       type: git
     - name: image

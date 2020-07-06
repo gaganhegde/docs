@@ -1,14 +1,16 @@
-apiVersion: tekton.dev/v1alpha1
+apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   creationTimestamp: null
   name: app-ci-pipeline
-  namespace: cicd
+  namespace: tst-cicd
 spec:
   params:
   - name: REPO
     type: string
   - name: COMMIT_SHA
+    type: string
+  - name: TLSVERIFY
     type: string
   resources:
   - name: source-repo
@@ -19,7 +21,7 @@ spec:
   - name: build-image
     params:
     - name: TLSVERIFY
-      value: "true"
+      value: $(params.TLSVERIFY)
     resources:
       inputs:
       - name: source

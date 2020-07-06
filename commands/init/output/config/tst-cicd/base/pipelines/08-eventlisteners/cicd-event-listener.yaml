@@ -1,9 +1,9 @@
-apiVersion: tekton.dev/v1alpha1
+apiVersion: triggers.tekton.dev/v1alpha1
 kind: EventListener
 metadata:
   creationTimestamp: null
   name: cicd-event-listener
-  namespace: cicd
+  namespace: tst-cicd
 spec:
   serviceAccountName: pipeline
   triggers:
@@ -13,10 +13,10 @@ spec:
     - cel:
         filter: (header.match('X-GitHub-Event', 'pull_request') && body.action ==
           'opened' || body.action == 'synchronize') && body.pull_request.head.repo.full_name
-          == 'wuser/gitops'
+          == 'wtam2018/gitops'
     - github:
         secretRef:
-          namespace: cicd
+          namespace: tst-cicd
           secretKey: webhook-secret-key
           secretName: gitops-webhook-secret
     name: ci-dryrun-from-pr
@@ -27,10 +27,10 @@ spec:
     interceptors:
     - cel:
         filter: (header.match('X-GitHub-Event', 'push') && body.repository.full_name
-          == 'wuser/gitops') && body.ref.startsWith('refs/heads/master')
+          == 'wtam2018/gitops') && body.ref.startsWith('refs/heads/master')
     - github:
         secretRef:
-          namespace: cicd
+          namespace: tst-cicd
           secretKey: webhook-secret-key
           secretName: gitops-webhook-secret
     name: cd-deploy-from-push

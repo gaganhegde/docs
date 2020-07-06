@@ -1,4 +1,4 @@
-apiVersion: tekton.dev/v1alpha1
+apiVersion: triggers.tekton.dev/v1alpha1
 kind: TriggerTemplate
 metadata:
   annotations:
@@ -7,19 +7,23 @@ metadata:
     tekton.dev/status-description: Dev CI Build
   creationTimestamp: null
   name: app-ci-template
-  namespace: cicd
+  namespace: tst-cicd
 spec:
   params:
-  - description: The git branch for this PR
+  - description: The git branch for this PR.
     name: gitref
   - description: the specific commit SHA.
     name: gitsha
-  - description: The git repository url
+  - description: The git repository URL.
     name: gitrepositoryurl
   - description: The GitHub repository for this PullRequest.
     name: fullname
+  - description: The repository to push built images to.
+    name: imageRepo
+  - description: Enable image repostiory TLS certification verification.
+    name: tlsVerify
   resourcetemplates:
-  - apiVersion: tekton.dev/v1alpha1
+  - apiVersion: tekton.dev/v1beta1
     kind: PipelineRun
     metadata:
       creationTimestamp: null
@@ -30,6 +34,8 @@ spec:
         value: $(params.fullname)
       - name: COMMIT_SHA
         value: $(params.gitsha)
+      - name: TLSVERIFY
+        value: $(params.tlsVerify)
       pipelineRef:
         name: app-ci-pipeline
       resources:
@@ -45,7 +51,7 @@ spec:
         resourceSpec:
           params:
           - name: url
-            value: quay.io/user/service:$(params.gitref)-$(params.gitsha)
+            value: $(params.imageRepo):$(params.gitref)-$(params.gitsha)
           type: image
       serviceAccountName: pipeline
     status: {}
