@@ -7,13 +7,16 @@ _Environment add_ command creates a new environment in an existing GitOps setup.
 ```shell
 $ odo pipelines environment add 
   --env-name 
-  [--manifest]
+  [--cluster]
+  [--pipelines-file]
 ```
 
-| Option                  | Description |
+| Flag                    | Description |
 | ----------------------- | ----------- |
+| --cluster               | Deployment cluster (Default https://kubernetes.local.svc)|
 | --env-name              | The name of environment to be added|
-| --manifest    | Optional.  Path to manifest file.  Default is pipelines.yaml. |
+| --pipelines-file        | Optional.  Path to manifest file.  Default is pipelines.yaml. |
+| --help                  | Show help|
 
 
 The following [directory layout](output) is generated.
