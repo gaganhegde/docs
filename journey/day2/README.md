@@ -11,7 +11,11 @@ Evnrionments and Applications/Services.
 
 ## Prerequisites
 
-* A GitOps system that has been bootstrapped in [Day 1 Operations](../day1)
+**NOTE**: `odo pipelines` commands are hidden in `Expermential Mode`.  To enable `Expermential Mode` available, please set th `EXPERIEMENTAL` environment variable in the running terminal.
+```shell
+$ export ODO_EXPERIMENTAL=true
+```
+* A GitOps system that has been bootstrapped in [Day 1 Operations](../day1) (Also see Day 1 Operation Prerequisities)
 * A new Git repository to be used as the new Service's source repository. 
 * Download unofficial [odo](../../commands/bin) binary
 
@@ -21,7 +25,8 @@ To generate resources for a new Environment, you simiply run this command.
 
 ```shell
 $ odo pipelines environment add \
-  --env-name new-env
+  --env-name new-env \
+  --pipelines-file <path to pipelines file>
 ```
 
 It adds a new Environment `new-env` in the Pipelines Model.
@@ -29,12 +34,19 @@ It adds a new Environment `new-env` in the Pipelines Model.
 ```yaml
 environments:
 - name: new-env
+  pipelines:
+    integration:
+      bindings:
+      - github-pr-binding
+      template: app-ci-template
 ```
 
 And, it generates the following yamls.  The new resources are namespace and role bindings.
 
 * [`environments/<env-name>/env/base/<env-name>-environment.yaml`](output/environments/new-env/env/base/new-env-environment.yaml)
 * [`environments/<env-name>/env/base/<env-name>-rolebindings.yaml`](output/environments/new-env/env/base/new-env-rolebindgs.yaml)
+
+
 
 ## Create an Application/Service in the new Environment
 
@@ -43,46 +55,42 @@ To generate resources for the new Serivce, run the foolowing command.
 ```shell
 $ odo pipelines service add \
   --env-name new-env \
-  --app-name bus \
-  --service-name bus-svc \
+  --app-name app-bus \
+  --service-name bus \
   --git-repo-url http://github.com/<user>/bus.git \
-  --webhook-secret testing 
-```
+  --pipelines-file <path to pipelines file>```
 
-**NOTE**: DO NOT use `testing` as your secrets.
-
-Per the (GitHub documentation)[https://developer.github.com/webhooks/securing/]
-you should generate a secret for each of them:
-
-```shell
-$ ruby -rsecurerandom -e 'puts SecureRandom.hex(20)'
-```
 
 The `service add` command adds a new Service and Application under `new-env` Environment in the Pipelines Model as below.
 
 ```yaml
 environments:
 - apps:
-  - name: bus
+  - name: app-bus
     services:
-    - bus-svc
+    - bus
   name: new-env
+  pipelines:
+    integration:
+      bindings:
+      - github-pr-binding
+      template: app-ci-template
   services:
-  - name: bus-svc
-    source_url: http://github.com/<user>/bus.git
+  - name: bus
+    source_url: https://github.com/wtam2018/bus.git
     webhook:
       secret:
-        name: github-webhook-secret-bus-svc
+        name: webhook-secret-new-env-bus
         namespace: tst-cicd
 ```
 
 In the Application's folder, a kustomization.yaml is generated to reference the new Service.
 
-* [`environments/new-env/apps/bus/base/kustomization.yaml`](output/environments/new-env/apps/bus/base/kustomization.yaml)
+* [`environments/new-env/apps/app-bus/base/kustomization.yaml`](output/environments/new-env/apps/app-bus/base/kustomization.yaml)
 
 In the Service's folder, an empty `config` folder is created.   This is the folder you will add `deployment yaml` files to specify how the Service should be deployed.
 
-* [`environments/new-env/services/bus-svc/base`](output/environments/new-env/services/bus-svc/base)
+* [`environments/new-env/services/bus/base`](output/environments/new-env/services/bus/base)
 
 Similar to the Day 1 example, we will just deploy a dummy nginxinc image.  The following files should be added to `config` folder.
 
@@ -93,24 +101,26 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   creationTimestamp: null
-  name: bus-svc
+  name: taxi
   namespace: new-env
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: bus-svc
+      app.kubernetes.io/name: bus
+      app.kubernetes.io/part-of: app-bus
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app.kubernetes.io/name: bus-svc
+        app.kubernetes.io/name: bus
+        app.kubernetes.io/part-of: app-bus
     spec:
       containers:
       - image: nginxinc/nginx-unprivileged:latest
         imagePullPolicy: Always
-        name: bus-svc
+        name: bus
         ports:
         - containerPort: 8080
         resources: {}
@@ -120,15 +130,15 @@ status: {}
 
 * `200-service.yaml`
 ```yaml
-
 apiVersion: v1
 kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    app.kubernetes.io/name: bus-svc
-  name: bus-svc
-  namespace: new-env
+    app.kubernetes.io/name: bus
+    app.kubernetes.io/part-of: app-bus
+  name: bus
+  namespace: tst-dev
 spec:
   ports:
   - name: http
@@ -136,7 +146,8 @@ spec:
     protocol: TCP
     targetPort: 8080
   selector:
-    app.kubernetes.io/name: bus-svc
+    app.kubernetes.io/name: bus
+    app.kubernetes.io/part-of: app-bus
 status:
   loadBalancer: {}
 ```
@@ -151,32 +162,32 @@ resources:
 
 The new Service/Application will be deployed by ArgoCD.   An ArgoCD application yaml is generated in the ArgoCD environment.
 
-* [`environments/<prefix>argocd/config/<env>-<app>-app.yaml`](output/environments/tst-argocd/config/new-env-bus-app.yaml)
+* [`config/argocd/config/<env>-<app>-app.yaml`](output/config/argocd/config/new-env-app-bus-app.yaml)
 
 In the CI/CD Environment, a couple of resources are added or modified.
 
 Webhook secret resource is generated.
 
-* [`environments/<prefix>cicd/base/pipelines/03-secrets/github-webhook-secret-<service>.yaml`](output/environments/tst-cicd/base/pipelines/03-secrets/github-webhook-secret-bus-svc.yaml)
+* [`config/<prefix>-cicd/base/pipelines/03-secrets/webhook-secret-<env>-<service>.yaml`](output/config/tst-cicd/base/pipelines/03-secrets/webhook-secret-new-env-bus.yaml)
 
 The Event Listener is modified as below to add a `trigger` for the new Service's source repository to trigger continous integration.
 
-* [`environments/<prefix>cicd/base/pipelines/08-eventlisteners/cicd-event-listener.yaml`](output/environments/tst-cicd/base/pipelines/08-eventlisteners/cicd-event-listener.yaml)
+* [`config/<prefix>--cicd/base/pipelines/08-eventlisteners/cicd-event-listener.yaml`](output/config/tst-cicd/base/pipelines/08-eventlisteners/cicd-event-listener.yaml)
 
 ```yaml
- - bindings:
+  - bindings:
     - name: github-pr-binding
     interceptors:
     - cel:
         filter: (header.match('X-GitHub-Event', 'pull_request') && body.action ==
           'opened' || body.action == 'synchronize') && body.pull_request.head.repo.full_name
-          == '<user>/<service>'
+          == 'wtam2018/bus'
     - github:
         secretRef:
           namespace: tst-cicd
           secretKey: webhook-secret-key
-          secretName: github-webhook-secret-bus-svc
-    name: app-ci-build-from-pr-<service>-svc
+          secretName: webhook-secret-new-env-bus
+    name: app-ci-build-from-pr-bus
     template:
       name: app-ci-template
 ```
@@ -185,8 +196,8 @@ The Event Listener is modified as below to add a `trigger` for the new Service's
 Now, run `oc apply` to apply the gnerated resources to the cluster.
 
 ```shell
-$ oc apply -k environments/<prefix>cicd/base
-$ oc apply -k environments/<prefix>-argocd/config/
+$ oc apply -k config/<prefix>-cicd/base
+$ oc apply -k config/argocd/config/
 $ oc apply -k environments/new-env/env/base/
 ```
 
@@ -198,7 +209,8 @@ Create a webhook for the new source repository.   This will allow webhook on the
 $ odo pipelines webhook create \
     --access-token \
     --env-name new-env \
-    --service-name bus-svc
+    --service-name bus \
+    --pipelines-file <path to pipelines file>
 ```
 
 ## Commit and Push configuration to GitOps repoository

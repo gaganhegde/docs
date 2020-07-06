@@ -9,7 +9,7 @@ These commands are similar.  They are differ in what gets genreated.  The boostr
 
 ## Prerequisites
 
-NOTE: `odo pipelines` commands are hidden in `Expermential Mode`.  To enable `Expermential Mode` available, please set th `EXPERIEMENTAL` environment variable in the running terminal.
+**NOTE**: `odo pipelines` commands are hidden in `Expermential Mode`.  To enable `Expermential Mode` available, please set th `EXPERIEMENTAL` environment variable in the running terminal.
 ```shell
 $ export ODO_EXPERIMENTAL=true
 ```
@@ -146,12 +146,12 @@ is opened.
 This is the default pipeline specification for the `tst-dev` environment, you
 can find the definitions for these in these two files:
 
- * [`config/<prefix>cicd/base/pipelines/07-templates/app-ci-build-pr-template.yaml`](output/config/tst-cicd/base/pipelines/07-templates/app-ci-build-pr-template.yaml)
- * [`config/<prefix>cicd/base/pipelines/06-bindings/github-pr-binding.yaml`](output/config/tst-cicd/base/pipelines/06-bindings/github-pr-binding.yaml)
+ * [`config/<prefix>-cicd/base/pipelines/07-templates/app-ci-build-pr-template.yaml`](output/config/tst-cicd/base/pipelines/07-templates/app-ci-build-pr-template.yaml)
+ * [`config/<prefix>-cicd/base/pipelines/06-bindings/github-pr-binding.yaml`](output/config/tst-cicd/base/pipelines/06-bindings/github-pr-binding.yaml)
 
 By default this triggers a PipelineRun of this pipeline
 
- * [`config/<prefix>cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml`](output/config/tst-cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml)
+ * [`config/<prefix>-cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml`](output/config/tst-cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml)
 
 These files are not managed directly by the manifest, you're free to change them
 for your own needs, by default they use [Buildah](https://github.com/containers/buildah)
@@ -184,7 +184,7 @@ The YAML above defines an app called `app-taxi`, which has a reference to servic
 The configuration for these is written out to:
 
  * [`environments/test-dev/services/taxi/base/config/`](output/environments/tst-dev/services/taxi/base/config)
- * [`environments/<prefix>dev/apps/app-taxi/base/`](output/environments/tst-dev/apps/app-taxi/base/)
+ * [`environments/<prefix>-dev/apps/app-taxi/base/`](output/environments/tst-dev/apps/app-taxi/base/)
 
 The `app-taxi` app's configuration references the services configuration.
 
@@ -294,7 +294,7 @@ The default CI pipeline we provide is defined in the manifest file:
 
 This template drives a Pipeline that is stored in this file:
 
- * [`config/<prefix>cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml`](output/config/tst-cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml)
+ * [`config/<prefix>-cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml`](output/config/tst-cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml)
 
 An abridged version is shown below, it has a single task `build-image`, which
 executes the `buildah` task, which basically builds the source and generates an
@@ -322,7 +322,7 @@ code:
 
 Write the following Task to this file:
 
- * `config/<prefix>cicd/base/pipelines/04-tasks/go-test-task.yaml`
+ * `config/<prefix>-cicd/base/pipelines/04-tasks/go-test-task.yaml`
 
 ```yaml
 apiVersion: tekton.dev/v1alpha1
@@ -346,7 +346,7 @@ This is a simple test task for a Go application, it just runs the tests.
 
 Update the pipeline in this file:
 
- * [`config/<prefix>cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml`](output/config/tst-cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml)
+ * [`config/<prefix>-cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml`](output/config/tst-cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml)
 
 
 ```yaml
