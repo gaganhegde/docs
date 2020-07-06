@@ -35,20 +35,6 @@ $ odo pipelines bootstrap \
   --prefix tst
 ```
 
-| Flag                         | Description |
-| ---------------------------- | ----------- |
-| --dockercfgjson              | This is used to authenticate image pushes to your image-repo. |
-| --gitops-repo-url            | This is where your configuration and pipelines live. |
-| --gitops-webhook-secret      | This is used to validate incoming hooks.  (if not provided, it will be auto-generated)|
-| --help                       | Help for bootstrap|
-| --image-repo                 | Where should we configure your builds to push to? |
-| --internal-registry-hostname | Internal image registry hostname (default "image-registry.openshift-image-registry.svc:5000") |
-| --output                     | Folder path to add Gitops resources (default ".") |
-| --prefix                     | This is used to help separate user namespaces. |
-| --sealed-secrets-ns          | Namespace in which the Sealed Secrets operator is installed, automatically generated secrets are encrypted with this operator (default "kube-system")|
-| --service-repo-url           | This is the source code to your first application. |
-| --service-webhook-secret     | Creates a secret used to validate incoming hooks. (if not provided, it will be auto-generated)|
-
 ## Exploring the pipelines.yaml (manifest file)
 
 The bootstrap process generates a fairly large number of files, including a

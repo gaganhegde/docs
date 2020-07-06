@@ -9,76 +9,84 @@ Bootstrap command creates default environments for your initial application.  It
 
 ```shell
 $ odo pipelines bootstrap 
-  --app-repo-url 
-  --app-webhook-secret 
   --gitops-repo-url
-  --gitops-webhook-secret
+  --service-repo-url 
   --image-repo
   --dockercfgjson 
   [--internal-registry-hostname]
+  [--gitops-webhook-secret]
+  [--service-webhook-secret]
+  [--sealed-secrets-ns]
   [--prefix]
-  [--output]
+  [--output]  
+
 ```
 
-| Option                  | Description |
-| ----------------------- | ----------- |
-| --app-repo | The source repository of your initial application.   E.g. https://github.com/user/service.git |
-| --app-webhook-secret | A secret used to validate incoming events from source repository webhook. |
-| --gitops-repo-url | The Git repository where your configuration and manifest live. E.g. https://github.com/user/gitops.git|
-| --gitops-webhook-secret | A secret used to validate incoming events from GitOps webhook. |
-| --image-repo | Where should we configure your builds to push to? E.g. quay.io/user/service or user/service for internal registry|
-| --dockercfgjson | Path to dockercfgjson file.  This is used to authenticate image pushes to your image-repo. |
-| --internal-registry-hostname | Optional. Internal image registry hostname (default _image-registry.openshift-image-registry.svc:5000_)
-| --prefix                | Optional.  This is used to help separate user namespaces. |
-| --output                | Optional.  Output path.  (default is the current working directory|
+| Flag                         | Description |
+| ---------------------------- | ----------- |
+| --dockercfgjson              | This is used to authenticate image pushes to your image-repo. |
+| --gitops-repo-url            | This is where your configuration and pipelines live. |
+| --gitops-webhook-secret      | This is used to validate incoming hooks.  (if not provided, it will be auto-generated)|
+| --help                       | Help for bootstrap|
+| --image-repo                 | Where should we configure your builds to push to? |
+| --internal-registry-hostname | Internal image registry hostname (default "image-registry.openshift-image-registry.svc:5000") |
+| --output                     | Folder path to add Gitops resources (default ".") |
+| --prefix                     | This is used to help separate user namespaces. |
+| --sealed-secrets-ns          | Namespace in which the Sealed Secrets operator is installed, automatically generated secrets are encrypted with this operator (default "kube-system")|
+| --service-repo-url           | This is the source code to your first application. |
+| --service-webhook-secret     | Creates a secret used to validate incoming hooks. (if not provided, it will be auto-generated)|
 
 The following [directory layout](output) is generated.
 
 ```shell
 .
-├── environments
+├── config
 │   ├── argocd
 │   │   └── config
-│   │       ├── dev-service-app.yaml
-│   │       └── kustomization.yaml
-│   ├── cicd
-│   │   ├── base
-│   │   │   ├── kustomization.yaml
-│   │   │   └── pipelines
-│   │   │       ├── 01-namespaces
-│   │   │       │   └── cicd-environment.yaml
-│   │   │       ├── 02-rolebindings
-│   │   │       │   ├── pipeline-service-account.yaml
-│   │   │       │   ├── pipeline-service-rolebinding.yaml
-│   │   │       │   └── pipeline-service-role.yaml
-│   │   │       ├── 03-secrets
-│   │   │       │   ├── docker-config.yaml
-│   │   │       │   ├── github-webhook-secret-service-svc.yaml
-│   │   │       │   └── gitops-webhook-secret.yaml
-│   │   │       ├── 04-tasks
-│   │   │       │   ├── deploy-from-source-task.yaml
-│   │   │       │   └── deploy-using-kubectl-task.yaml
-│   │   │       ├── 05-pipelines
-│   │   │       │   ├── app-ci-pipeline.yaml
-│   │   │       │   ├── cd-deploy-from-push-pipeline.yaml
-│   │   │       │   └── ci-dryrun-from-pr-pipeline.yaml
-│   │   │       ├── 06-bindings
-│   │   │       │   ├── github-pr-binding.yaml
-│   │   │       │   └── github-push-binding.yaml
-│   │   │       ├── 07-templates
-│   │   │       │   ├── app-ci-build-pr-template.yaml
-│   │   │       │   ├── cd-deploy-from-push-template.yaml
-│   │   │       │   └── ci-dryrun-from-pr-template.yaml
-│   │   │       ├── 08-eventlisteners
-│   │   │       │   └── cicd-event-listener.yaml
-│   │   │       ├── 09-routes
-│   │   │       │   └── gitops-webhook-event-listener.yaml
-│   │   │       └── kustomization.yaml
-│   │   └── overlays
-│   │       └── kustomization.yaml
-│   ├── dev
+│   │       ├── kustomization.yaml
+│   │       └── tst-dev-app-taxi-app.yaml
+│   └── tst-cicd
+│       ├── base
+│       │   ├── kustomization.yaml
+│       │   └── pipelines
+│       │       ├── 01-namespaces
+│       │       │   ├── cicd-environment.yaml
+│       │       │   └── proj.yaml
+│       │       ├── 02-rolebindings
+│       │       │   ├── internal-registry-proj-binding.yaml
+│       │       │   ├── pipeline-service-account.yaml
+│       │       │   ├── pipeline-service-rolebinding.yaml
+│       │       │   └── pipeline-service-role.yaml
+│       │       ├── 03-secrets
+│       │       │   ├── docker-config.yaml
+│       │       │   ├── gitops-webhook-secret.yaml
+│       │       │   └── webhook-secret-tst-dev-taxi.yaml
+│       │       ├── 04-tasks
+│       │       │   ├── deploy-from-source-task.yaml
+│       │       │   └── deploy-using-kubectl-task.yaml
+│       │       ├── 05-pipelines
+│       │       │   ├── app-ci-pipeline.yaml
+│       │       │   ├── cd-deploy-from-push-pipeline.yaml
+│       │       │   └── ci-dryrun-from-pr-pipeline.yaml
+│       │       ├── 06-bindings
+│       │       │   ├── github-pr-binding.yaml
+│       │       │   ├── github-push-binding.yaml
+│       │       │   └── tst-dev-taxi-binding.yaml
+│       │       ├── 07-templates
+│       │       │   ├── app-ci-build-pr-template.yaml
+│       │       │   ├── cd-deploy-from-push-template.yaml
+│       │       │   └── ci-dryrun-from-pr-template.yaml
+│       │       ├── 08-eventlisteners
+│       │       │   └── cicd-event-listener.yaml
+│       │       ├── 09-routes
+│       │       │   └── gitops-webhook-event-listener.yaml
+│       │       └── kustomization.yaml
+│       └── overlays
+│           └── kustomization.yaml
+├── environments
+│   ├── tst-dev
 │   │   ├── apps
-│   │   │   └── service
+│   │   │   └── app-taxi
 │   │   │       ├── base
 │   │   │       │   └── kustomization.yaml
 │   │   │       ├── kustomization.yaml
@@ -86,13 +94,13 @@ The following [directory layout](output) is generated.
 │   │   │           └── kustomization.yaml
 │   │   ├── env
 │   │   │   ├── base
-│   │   │   │   ├── dev-environment.yaml
-│   │   │   │   ├── dev-rolebinding.yaml
-│   │   │   │   └── kustomization.yaml
+│   │   │   │   ├── kustomization.yaml
+│   │   │   │   ├── tst-dev-environment.yaml
+│   │   │   │   └── tst-dev-rolebinding.yaml
 │   │   │   └── overlays
 │   │   │       └── kustomization.yaml
 │   │   └── services
-│   │       └── service-svc
+│   │       └── taxi
 │   │           ├── base
 │   │           │   ├── config
 │   │           │   │   ├── 100-deployment.yaml
@@ -102,13 +110,14 @@ The following [directory layout](output) is generated.
 │   │           ├── kustomization.yaml
 │   │           └── overlays
 │   │               └── kustomization.yaml
-│   └── stage
+│   └── tst-stage
 │       └── env
 │           ├── base
 │           │   ├── kustomization.yaml
-│           │   └── stage-environment.yaml
+│           │   └── tst-stage-environment.yaml
 │           └── overlays
 │               └── kustomization.yaml
 └── pipelines.yaml
+
 ```
 
