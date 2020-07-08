@@ -15,6 +15,8 @@ oc -n argocd create route edge argocd-server --service=argocd-server --port=http
 
 ARGOCD_ROUTE=$(oc -n argocd get route argocd-server -o jsonpath='{.spec.host}')
 
+# Wait a few seconds until ArgoCD services are running then run this command.  
+# Re-run this command until you see "'admin' logged in successfully" message
 argocd --insecure --grpc-web login ${ARGOCD_ROUTE}:443 --username admin --password ${ARGOCD_SERVER_PASSWORD}
 
 # Update admin's password (changeMe)
