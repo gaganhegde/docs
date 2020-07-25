@@ -28,7 +28,8 @@ $ odo pipelines service add
 | --image-repo | Optional. Used to push built images|
 |--internal-registry-hostname| Optioanl.  Internal image registry hostname (default "image-registry.openshift-image-registry.svc:5000") |
 | --pipelines-file | Optional.  Path to pipelines file.  Default is _pipelines.yaml_. |
-| --sealed-secrets-ns | Optional. Namespace in which the Sealed Secrets operator is installed, automatically generated secrets are encrypted with this operator (default "kube-system") |
+|  --sealed-secrets-ns string           | Optional. Namespace in which the Sealed Secrets operator is installed, automatically generated secrets are encrypted with this operator (default "sealed-secrets") |
+| --sealed-secrets-svc string           | Optional. Name of the Sealed Secrets Services that encrypts secrets (default "sealedsecretcontroller-sealed-secrets") |
 | --service-name | Name of the service to be added.  Service name must be unique within an environment. |
 | --webhook-secret | Optional.  Wehook secret of the source Git repository URL. It is required if git-repo-url is provided|
 
