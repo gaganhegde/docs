@@ -1,3 +1,3 @@
 bases:
-- ../../../services/bus
+- ../services/bus
 - ../../../env/base
