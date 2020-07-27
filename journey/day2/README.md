@@ -224,7 +224,7 @@ $ git push origin master
 ```
 
 CD Pipeline is triggered and run successfully.
-![cd-pipelines-success.png](img/cd-pipelines-success.png)
+![cd-pipelines-success.png](img/pipeline-success.png)
 
 New Application is deployed by ArgoCD successfully.
 ![argocd.png](img/argocd.png)
