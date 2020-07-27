@@ -38,29 +38,28 @@ The following [directory layout](output) is generated.
 
 ```shell
 
-├── environments
-│   ├── new-env
-│   │   ├── apps
-│   │   │   └── app-bus
-│   │   │       ├── base
-│   │   │       │   └── kustomization.yaml
-│   │   │       ├── kustomization.yaml
-│   │   │       └── overlays
-│   │   │           └── kustomization.yaml
-│   │   ├── env
-│   │   │   ├── base
-│   │   │   │   ├── kustomization.yaml
-│   │   │   │   ├── new-env-environment.yaml
-│   │   │   │   └── new-env-rolebinding.yaml
-│   │   │   └── overlays
-│   │   │       └── kustomization.yaml
-│   │   └── services
-│   │       └── bus
-│   │           ├── base
-│   │           │   └── kustomization.yaml
-│   │           ├── kustomization.yaml
-│   │           └── overlays
-│   │               └── kustomization.yaml
+.
+├── apps
+│   └── app-bus
+│       ├── base
+│       │   └── kustomization.yaml
+│       ├── kustomization.yaml
+│       ├── overlays
+│       │   └── kustomization.yaml
+│       └── services
+│           └── bus
+│               ├── base
+│               │   └── kustomization.yaml
+│               ├── kustomization.yaml
+│               └── overlays
+│                   └── kustomization.yaml
+└── env
+    ├── base
+    │   ├── kustomization.yaml
+    │   ├── new-env-environment.yaml
+    │   └── new-env-rolebinding.yaml
+    └── overlays
+        └── kustomization.yaml
 
 ```
   
