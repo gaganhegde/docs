@@ -30,7 +30,7 @@ And, you will need this.
 $ odo pipelines bootstrap \
   --service-repo-url https://github.com/<username>/taxi.git \
   --gitops-repo-url https://github.com/<username>/gitops.git \
-  --image-repo quay.io/<username>/taxi \
+  --image-repo quay.io/<username>/<image-repo> \
   --dockercfgjson ~/Downloads/<username>-auth.json \
   --prefix tst
 ```
@@ -90,45 +90,40 @@ The `tst-dev` environment created is the most visible configuration.
 
 ### configuring pipelines
 
+
 ```yaml
 environments:
 - apps:
   - name: app-taxi
     services:
-    - taxi
-  name: tst-dev
+    - name: taxi
+      pipelines:
+        integration:
+          bindings:
+          - dev-app-taxi-taxi-binding
+          - gitlab-push-binding
+      source_url: https://gitlab.com/ishitasequeira/taxi.git
+      webhook:
+        secret:
+          name: webhook-secret-dev-taxi
+          namespace: cicd
+  name: dev
   pipelines:
     integration:
       bindings:
-      - github-pr-binding
+      - gitlab-push-binding
       template: app-ci-template
-  services:
-  - name: taxi
-    pipelines:
-      integration:
-        bindings:
-        - tst-dev-taxi-binding
-        - github-pr-binding
-    source_url: https://github.com/wtam2018/taxi.git
-    webhook:
-      secret:
-        name: webhook-secret-tst-dev-taxi
-        namespace: tst-cicd
-  template: app-ci-template
-  services:
-  - name: taxi-svc
-    source_url: https://github.com/wtam2018/taxi.git
-    webhook:
-      secret:
-        name: github-webhook-secret-taxi-svc
-        namespace: tst-cicd      
+- name: stage
+gitops_url: https://gitlab.com/ishitasequeira/gitops.git
+
+
 ```
 
 The `pipelines` key describes how to trigger a Tekton PipelineRun, the
 `integration` binding and template are processed when a _Pull Request_
 is opened.
 
-This is the default pipeline specification for the `tst-dev` environment, you
+This is the default pipeline specification for the `dev` environment, you
 can find the definitions for these in these two files:
 
  * [`config/<prefix>-cicd/base/pipelines/07-templates/app-ci-build-pr-template.yaml`](output/config/tst-cicd/base/pipelines/07-templates/app-ci-build-pr-template.yaml)
@@ -149,19 +144,17 @@ of your repository.
 - apps:
   - name: app-taxi
     services:
-    - taxi
-  services:
-  - name: taxi
-    pipelines:
-      integration:
-        bindings:
-        - tst-dev-taxi-binding
-        - github-pr-binding
-    source_url: https://github.com/wtam2018/taxi.git
-    webhook:
-      secret:
-        name: webhook-secret-tst-dev-taxi
-        namespace: tst-cicd
+    - name: taxi
+      pipelines:
+        integration:
+          bindings:
+          - dev-app-taxi-taxi-binding
+          - gitlab-push-binding
+      source_url: https://gitlab.com/ishitasequeira/taxi.git
+      webhook:
+        secret:
+          name: webhook-secret-dev-taxi
+          namespace: cicd
 ```
 
 The YAML above defines an app called `app-taxi`, which has a reference to service called `taxi`.
