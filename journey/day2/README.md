@@ -235,7 +235,7 @@ Pull Request.
 
 This should trigger the PipelineRun:
 
-![PipelineRun triggered](img/ci-pipeline-run.png)
+![PipelineRun triggered](img/app-ci-pipeline.png)
 
 
 
