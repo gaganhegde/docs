@@ -203,7 +203,7 @@ start, the configuration should be self-hosted thereafter.
 
 ```shell
 $ oc apply -k environments/tst-dev/env/base
-$ oc apply -k config/tst-argocd/config
+$ oc apply -k config/argocd/config
 $ oc apply -k config/tst-cicd/base
 ```
 
