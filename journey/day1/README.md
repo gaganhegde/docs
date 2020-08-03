@@ -263,7 +263,7 @@ the "gitops" repo.
 ```shell
 $ odo pipelines webhook create \
     --access-token <github user access token> \
-    --cidi
+    --cicd
 ```
 
 This step involves changing the CI definition for your application code.
