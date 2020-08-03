@@ -20,16 +20,16 @@ $ odo pipelines init
 
 | Flag                                  | Description |
 | ------------------------------------- | ----------- |
-| --dockercfgjson                       | Path to dockercfgjson file..  This is used to authenticate image pushes to your image-repo. |
-| --gitops-repo-url                     | The Git repository where your configuration and manifest live. E.g. https://github.com/user/gitops.git|
-| --gitops-webhook-secret               | Optional. This is used to validate incoming hooks.  (if not provided, it will be auto-generated)|
-| --help                                | Help for init |
-| --image-repo                          | Where should we configure your builds to push to? E.g. quay.io/user/service or user/service for internal registry|
-| --internal-registry-hostname          | Optional.  Internal image registry hostname (default _image-registry.openshift-image-registry.svc:5000_)
-| --output                              | Optional.  Output path.  (default is the current working directory|
-| --prefix                              | Optional.  This is used to help separate user namespaces. |
-| --overwrite                           | Optional. Overwrite an existing GitOps configuration (default false) |
-| --sealed-secrets-ns                   | Optional. Namespace in which the Sealed Secrets operator is installed, automatically generated secrets are encrypted with this operator (default "kube-system")|
+| --dockercfgjson                       | Filepath to config.json which authenticates the image push to the desired image registry. |
+| --gitops-repo-url                     | Provide the URL for your GitOps repository e.g. https://github.com/organisation/repository.git |
+| --gitops-webhook-secret               | Optional. Provide a secret that we can use to authenticate incoming hooks from your Git hosting service for the GitOps repository. (if not provided, it will be auto-generated)|
+| --help                                | Help for init flags |
+| --image-repo                          | Image repository of the form <registry>/<username>/<repository> or <project>/<app> which is used to push newly built images |
+| --internal-registry-hostname          | Host-name for internal image registry e.g. docker-registry.default.svc.cluster.local:5000, used if you are pushing your images to the internal image registry |
+| --output                              | Path to write GitOps resources (default is the current working directory|
+| --prefix                              | Add a prefix to the environment names(Dev, stage,prod,cicd etc.) to distinguish and identify individual environments. |
+| --overwrite                           | Optional. Overwrites previously existing GitOps configuration (if any) (default false) |
+| --sealed-secrets-ns string            | Optional. Namespace in which the Sealed Secrets operator is installed, automatically generated secrets are encrypted with this operator (default "kube-system")|
 |  --sealed-secrets-ns string           | Optional. Namespace in which the Sealed Secrets operator is installed, automatically generated secrets are encrypted with this operator (default "sealed-secrets") |
 | --sealed-secrets-svc string           | Optional. Name of the Sealed Secrets Services that encrypts secrets (default "sealedsecretcontroller-sealed-secrets") |
 | --status-tracker-access-token string  | Optional. Used to authenticate requests to push commit-statuses to your Git hosting service |

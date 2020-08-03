@@ -28,20 +28,21 @@ $ odo pipelines bootstrap
 
 | Flag                                  | Description |
 | ------------------------------------- | ----------- |
-| --dockercfgjson                       | This is used to authenticate image pushes to your image-repo. |
-| --gitops-repo-url                     | This is where your configuration and pipelines live. |
-| --gitops-webhook-secret               | Optional. This is used to validate incoming hooks.  (if not provided, it will be auto-generated)|
-| --help                                | Help for bootstrap|
-| --image-repo                          | Where should we configure your builds to push to? |
-| --internal-registry-hostname          | Internal image registry hostname (default "image-registry.openshift-image-registry.svc:5000") |
-| --output                              | Folder path to add Gitops resources (default ".") |
-| --prefix                              | This is used to help separate user namespaces. |
-| --service-repo-url                    | This is the source code to your first application. |
-| --service-webhook-secret              | Optional. Creates a secret used to validate incoming hooks. (if not provided, it will be auto-generated)|
-| --overwrite                           | Optional. Overwrite an existing GitOps configuration (default false) |
+| --dockercfgjson                       | Filepath to config.json which authenticates the image push to the desired image registry. |
+| --gitops-repo-url                     | Provide the URL for your GitOps repository e.g. https://github.com/organisation/repository.git |
+| --gitops-webhook-secret               | Optional. Provide a secret that we can use to authenticate incoming hooks from your Git hosting service for the GitOps repository. (if not provided, it will be auto-generated)|
+| --help                                | Help for bootstrap flags. |
+| --image-repo                          | Image repository of the form <registry>/<username>/<repository> or <project>/<app> which is used to push newly built images. |
+| --internal-registry-hostname          | Host-name for internal image registry e.g. docker-registry.default.svc.cluster.local:5000, used if you are pushing your images to the internal image registry |
+| --output                              | Path to write GitOps resources (default ".") |
+| --prefix                              | Add a prefix to the environment names(Dev, stage,prod,cicd etc.) to distinguish and identify individual environments. |
+| --service-repo-url                    | Provide the URL for your Sevice repository e.g. https://github.com/organisation/repository.git which is source code to your first application. |
+| --service-webhook-secret              | Optional. Provide a secret that we can use to authenticate incoming hooks from your Git hosting service for the GitOps repository. (if not provided, it will be auto-generated)|
+| --overwrite                           | Optional. Overwrites previously existing GitOps configuration (if any) (default false) |
 | --sealed-secrets-ns string            | Optional. Namespace in which the Sealed Secrets operator is installed, automatically generated secrets are encrypted with this operator (default "sealed-secrets") |
 | --sealed-secrets-svc string           | Optional. Name of the Sealed Secrets Services that encrypts secrets (default "sealedsecretcontroller-sealed-secrets") |
-| --status-tracker-access-token string  | Optional. Used to authenticate requests to push commit-statuses to your Git hosting service
+| --status-tracker-access-token string  | Optional. Used to authenticate requests to push commit-statuses to your Git hosting service|
+
 
 The following [directory layout](output) is generated.
 
