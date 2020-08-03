@@ -233,8 +233,8 @@ You will need to create a new Webhook for the CI:
 
 ```shell
 $ odo pipelines webhook create \
-    --access-token <github user access token>
-    --env-name tst-dev
+    --access-token <github user access token> \
+    --env-name tst-dev \
     --service-name taxi
 ```
 
@@ -262,7 +262,7 @@ the "gitops" repo.
 
 ```shell
 $ odo pipelines webhook create \
-    --access-token <github user access token>
+    --access-token <github user access token> \
     --cidi
 ```
 
