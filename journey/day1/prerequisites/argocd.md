@@ -1,4 +1,18 @@
-## Install ArgoCD
+
+### Argocd Operator Installation - with operator( Recommended )
+
+Click on the argocd operator as shown below in the operator hub on your openhift console and install the operator in the argocd namespace.
+
+
+![ArgocdOperator](../img/Argocd_operator_gitops.png)
+
+
+Then run ``` oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:argocd:argocd-application-controller ``` to give the argocd controller the correct permissions.
+
+In order to get the correct password to login to the argocd web ui , run ``` kubectl get secret argocd-cluster -n argocd -ojsonpath='{.data.admin\.password}' | base64 --decode ```, user-name being admin. 
+
+
+## Install ArgoCD - manually
 
 ```shell
 oc create namespace argocd
