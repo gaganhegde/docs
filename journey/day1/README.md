@@ -19,7 +19,8 @@ The following will be provided to attendees in a 4.6 / 4.5 cluster
 
 * Fork/Clone the source Git repository ([bluetooth-module-inventory](prerequisites/service_repo.md) is used as an example in this document) in your Github account.
 
-* The external image repository secret to authenticate image pushes on sucessfull pipeline execution. To use quay.io, please follow [prerequisites/quay.md](prerequisites/quay.md)
+* The external image repository secret to authenticate image pushes on sucessfull pipeline execution. To use quay.io, please follow [prerequisites/quay.md](prerequisites/quay.md).Create a repository named 
+"bluetooth-module-inventory".
 
 * Download unofficial [odo](../../commands/bin) binary
 
