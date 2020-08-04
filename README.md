@@ -26,7 +26,7 @@ As a software organization, I would like to:
 
 
 ## Getting Started
-
+#### odo version: v1.2.3 (8e08fc8f3)
 ### Steps
 
 The following steps will guide you to setup GitOps for application delivery:
