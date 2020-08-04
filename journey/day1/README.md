@@ -22,8 +22,9 @@ You need to have the following installed in the OCP 4.x cluster.
 And, you will need this.
 * Create [GitOps repository](prerequisites/gitops_repo.md)
 * Source Git repository ([taxi](prerequisites/service_repo.md) is used as an example in this document)
-* The external image repository secret to authenticate image pushes on sucessfull pipeline execution. To use quay.io, please follow ( https://github.com/rhd-gitops-example/deployment-pipelines/tree/master/tutorial#quay-credentials-to-push-built-image-to-quayio-registry)
+* The external image repository secret to authenticate image pushes on sucessfull pipeline execution. To use quay.io, please follow [prerequisites/quay.md](prerequisites/quay.md)
 * Download unofficial [odo](../../commands/bin) binary
+* Steps to create the git access token for [commit-status-tracker/webhook access-token](prerequisites/git_access_token_steps.md)
 
 ## Bootstrapping the Manifest
 
