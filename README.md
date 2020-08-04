@@ -43,7 +43,7 @@ This project provides the tooling to generate the recommended directories and ma
 
 ### Sample
 
-A sample Gitops repository can be found [here](https://github.com/ishitasequeira/gitops).
+A sample Gitops repository can be found [here](https://github.com/rhd-gitops-example/gitops).
 
 
 ## Business Scenario

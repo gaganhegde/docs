@@ -22,6 +22,7 @@ You need to have the following installed in the OCP 4.x cluster.
 And, you will need this.
 * Create [GitOps repository](prerequisites/gitops_repo.md)
 * Source Git repository ([taxi](prerequisites/service_repo.md) is used as an example in this document)
+* The external image repository secret to authenticate image pushes on sucessfull pipeline execution. To use quay.io, please follow ( https://github.com/rhd-gitops-example/deployment-pipelines/tree/master/tutorial#quay-credentials-to-push-built-image-to-quayio-registry)
 * Download unofficial [odo](../../commands/bin) binary
 
 ## Bootstrapping the Manifest
@@ -30,10 +31,13 @@ And, you will need this.
 $ odo pipelines bootstrap \
   --service-repo-url https://github.com/<username>/taxi.git \
   --gitops-repo-url https://github.com/<username>/gitops.git \
-  --image-repo quay.io/<username>/taxi \
+  --image-repo quay.io/<username>/<image-repo> \
   --dockercfgjson ~/Downloads/<username>-auth.json \
   --prefix tst
+  --sealed-secrets-ns <namespace of sealed-secrets-controller svc>
+  --sealed-secrets-svc <name of the sealed-secret-controller svc>
 ```
+In the event of manual installations of sealed secrets as decsribed in the documentation,the flags for service and namespace name will have the following values ```--sealed-secret-ns kube-system and --sealed-secrets-svc sealed-secrets-controller```.
 
 ## Exploring the pipelines.yaml (manifest file)
 
@@ -48,32 +52,31 @@ config:
   argocd:
     namespace: argocd
   pipelines:
-    name: tst-cicd
+    name: cicd
 environments:
 - apps:
   - name: app-taxi
     services:
-    - taxi
-  name: tst-dev
+    - name: taxi
+      pipelines:
+        integration:
+          bindings:
+          - dev-app-taxi-taxi-binding
+          - gitlab-push-binding
+      source_url: https://gitlab.com/ishitasequeira/taxi.git
+      webhook:
+        secret:
+          name: webhook-secret-dev-taxi
+          namespace: cicd
+  name: dev
   pipelines:
     integration:
       bindings:
-      - github-pr-binding
+      - gitlab-push-binding
       template: app-ci-template
-  services:
-  - name: taxi
-    pipelines:
-      integration:
-        bindings:
-        - tst-dev-taxi-binding
-        - github-pr-binding
-    source_url: https://github.com/wtam2018/taxi.git
-    webhook:
-      secret:
-        name: webhook-secret-tst-dev-taxi
-        namespace: tst-cicd
-- name: tst-stage
-gitops_url: https://github.com/wtam2018/gitops.git
+- name: stage
+gitops_url: https://gitlab.com/ishitasequeira/gitops.git
+
 
 ```
 
@@ -91,45 +94,40 @@ The `tst-dev` environment created is the most visible configuration.
 
 ### configuring pipelines
 
+
 ```yaml
 environments:
 - apps:
   - name: app-taxi
     services:
-    - taxi
-  name: tst-dev
+    - name: taxi
+      pipelines:
+        integration:
+          bindings:
+          - dev-app-taxi-taxi-binding
+          - gitlab-push-binding
+      source_url: https://gitlab.com/ishitasequeira/taxi.git
+      webhook:
+        secret:
+          name: webhook-secret-dev-taxi
+          namespace: cicd
+  name: dev
   pipelines:
     integration:
       bindings:
-      - github-pr-binding
+      - gitlab-push-binding
       template: app-ci-template
-  services:
-  - name: taxi
-    pipelines:
-      integration:
-        bindings:
-        - tst-dev-taxi-binding
-        - github-pr-binding
-    source_url: https://github.com/wtam2018/taxi.git
-    webhook:
-      secret:
-        name: webhook-secret-tst-dev-taxi
-        namespace: tst-cicd
-  template: app-ci-template
-  services:
-  - name: taxi-svc
-    source_url: https://github.com/wtam2018/taxi.git
-    webhook:
-      secret:
-        name: github-webhook-secret-taxi-svc
-        namespace: tst-cicd      
+- name: stage
+gitops_url: https://gitlab.com/ishitasequeira/gitops.git
+
+
 ```
 
 The `pipelines` key describes how to trigger a Tekton PipelineRun, the
 `integration` binding and template are processed when a _Pull Request_
 is opened.
 
-This is the default pipeline specification for the `tst-dev` environment, you
+This is the default pipeline specification for the `dev` environment, you
 can find the definitions for these in these two files:
 
  * [`config/<prefix>-cicd/base/pipelines/07-templates/app-ci-build-pr-template.yaml`](output/config/tst-cicd/base/pipelines/07-templates/app-ci-build-pr-template.yaml)
@@ -142,27 +140,86 @@ By default this triggers a PipelineRun of this pipeline
 These files are not managed directly by the manifest, you're free to change them
 for your own needs, by default they use [Buildah](https://github.com/containers/buildah)
 to trigger build, assuming that the Dockerfile for your application is in the root
-of your repository.
+of your repository. In order to use features such as adding additional labels to the image built, the current bulidah cluster-task from the pipelines-operator has to be replaced. Create a file with the ```.yaml``` extension with the contents shown below.
 
+```yaml
+
+---
+apiVersion: tekton.dev/v1alpha1
+kind: ClusterTask
+metadata:
+  name: buildah
+spec:
+  inputs:
+    params:
+    - name: BUILDER_IMAGE
+      description: The location of the buildah builder image.
+      default: quay.io/buildah/stable:v1.11.0
+    - name: DOCKERFILE
+      description: Path to the Dockerfile to build.
+      default: ./Dockerfile
+    - name: TLSVERIFY
+      description: Verify the TLS on the registry endpoint (for push/pull to a non-TLS registry)
+      default: "true"
+    - name: BUILD_EXTRA_ARGS
+      description: Extra parameters passed for the push command when pushing images.
+      type: string
+      default: ""
+    resources:
+    - name: source
+      type: git
+  outputs:
+    resources:
+    - name: image
+      type: image
+  steps:
+  - name: build
+    image: $(inputs.params.BUILDER_IMAGE)
+    workingDir: /workspace/source
+    script: |
+      buildah bud $(inputs.params.BUILD_EXTRA_ARGS) --tls-verify=$(inputs.params.TLSVERIFY) --layers -f $(inputs.params.DOCKERFILE) -t $(outputs.resources.image.url) .
+    volumeMounts:
+    - name: varlibcontainers
+      mountPath: /var/lib/containers
+    securityContext:
+      privileged: true
+  - name: push
+    image: $(inputs.params.BUILDER_IMAGE)
+    workingDir: /workspace/source
+    command: ['buildah', 'push', '--tls-verify=$(inputs.params.TLSVERIFY)', '$(outputs.resources.image.url)', 'docker://$(outputs.resources.image.url)']
+    volumeMounts:
+    - name: varlibcontainers
+      mountPath: /var/lib/containers
+    securityContext:
+      privileged: true
+  volumes:
+  - name: varlibcontainers
+    emptyDir: {}
+    
+```
+Once created, simply run the command below:
+```shell
+kubectl replace -f <file-name>.yaml
+```
+A success message indicating the replacment of the older cluster task with the latest <file-name>.yaml will be shown.
+  
 ### configuring services
 
 ```yaml
 - apps:
   - name: app-taxi
     services:
-    - taxi
-  services:
-  - name: taxi
-    pipelines:
-      integration:
-        bindings:
-        - tst-dev-taxi-binding
-        - github-pr-binding
-    source_url: https://github.com/wtam2018/taxi.git
-    webhook:
-      secret:
-        name: webhook-secret-tst-dev-taxi
-        namespace: tst-cicd
+    - name: taxi
+      pipelines:
+        integration:
+          bindings:
+          - dev-app-taxi-taxi-binding
+          - gitlab-push-binding
+      source_url: https://gitlab.com/ishitasequeira/taxi.git
+      webhook:
+        secret:
+          name: webhook-secret-dev-taxi
+          namespace: cicd
 ```
 
 The YAML above defines an app called `app-taxi`, which has a reference to service called `taxi`.
@@ -200,11 +257,8 @@ to deploying applications via Git.
 Next, we'll bring up our deployment infrastructure, this is only necessary at the
 start, the configuration should be self-hosted thereafter.
 
-
 ```shell
-$ oc apply -k environments/tst-dev/env/base
-$ oc apply -k config/argocd/config
-$ oc apply -k config/tst-cicd/base
+$ oc apply -k config/argocd/
 ```
 
 You should now be able to create a route to your new service, it should be

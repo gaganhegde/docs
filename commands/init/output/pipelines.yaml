@@ -1,4 +1,4 @@
 config:
   pipelines:
-    name: tst-cicd
-gitops_url: https://github.com/wtam2018/gitops.git
+    name: cicd
+gitops_url: https://gitlab.com/ishitasequeira/gitops.git

@@ -44,5 +44,6 @@ GitOps is a subset of DevOps, specifically focussed on deploying the application
 Gitops = devops - system admins
 Devops is currently more widely followed than gitops 
 
-## Why would small teams use gitops?
+## How could small teams benefit from GitOps?
+ GitOps is about automating the application life-cycle, with more automation, it frees up developers to work on the product features that customers love.
 

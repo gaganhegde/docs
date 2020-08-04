@@ -11,30 +11,36 @@ Within a GitOps setup, there can be many [Environments](#Environment), [Applicat
 Pipelines Model is defined in a yaml file.  Here is an example pipelines.yaml
 
 ```yaml
+config:
+  argocd:
+    namespace: argocd
+  pipelines:
+    name: cicd
 environments:
 - apps:
-  - name: service
+  - name: app-taxi
     services:
-    - service-svc
+    - name: taxi
+      pipelines:
+        integration:
+          bindings:
+          - dev-app-taxi-taxi-binding
+          - gitlab-push-binding
+      source_url: https://gitlab.com/ishitasequeira/taxi.git
+      webhook:
+        secret:
+          name: webhook-secret-dev-taxi
+          namespace: cicd
   name: dev
   pipelines:
     integration:
       bindings:
-      - github-pr-binding
+      - gitlab-push-binding
       template: app-ci-template
-  services:
-  - name: service-svc
-    source_url: https://github.com/user/service.git
-    webhook:
-      secret:
-        name: github-webhook-secret-service-svc
-        namespace: cicd
 - name: stage
-- cicd: true
-  name: cicd
-- argo: true
-  name: argocd
-gitops_url: https://github.com/user/gitops.git
+gitops_url: https://gitlab.com/ishitasequeira/gitops.git
+
+
 ```
 
 ## Environment

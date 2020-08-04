@@ -1,7 +1,8 @@
-## Install Sealed Secrets
+## Suggested approach
 
-It is a two steps process to install Sealed Screts.
-* Install Sealed Secrets Operator in the `kube-system` namespace
-* Create a Sealed Secrets Controller in the `kube-system` namespace
+Install sealed secrets manually, run ``` kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.12.3/controller.yaml ```.
 
-![](img/sealed-secrets-controller-install.gif)
+
+
+
+
