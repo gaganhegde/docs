@@ -34,7 +34,10 @@ $ odo pipelines bootstrap \
   --image-repo quay.io/<username>/<image-repo> \
   --dockercfgjson ~/Downloads/<username>-auth.json \
   --prefix tst
+  --sealed-secrets-ns <namespace of sealed-secrets-controller svc>
+  --sealed-secrets-svc <name of the sealed-secret-controller svc>
 ```
+
 
 ## Exploring the pipelines.yaml (manifest file)
 
