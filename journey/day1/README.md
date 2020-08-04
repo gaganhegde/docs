@@ -13,7 +13,6 @@ The following will be provided to attendees in a 4.6 / 4.5 cluster
 * [ArgoCD](prerequisites/argocd.md)
 
 
-
 ### Developer Setup
 
 * Create [GitOps repository](prerequisites/gitops_repo.md) on Github.
@@ -22,6 +21,8 @@ The following will be provided to attendees in a 4.6 / 4.5 cluster
 
 * The external image repository secret to authenticate image pushes on sucessfull pipeline execution. To use quay.io, please follow ( https://github.com/rhd-gitops-example/deployment-pipelines/tree/master/tutorial#quay-credentials-to-push-built-image-to-quayio-registry)
 * Download unofficial [odo](../../commands/bin) binary
+
+* Steps to create the git access token for [commit-status-tracker/webhook access-token](prerequisites/git_access_token_steps.md)
 
 
 **NOTE**: `odo pipelines` commands are hidden in `Expermential Mode`.  To enable `Expermential Mode` available, please set th `EXPERIEMENTAL` environment variable in the running terminal.
