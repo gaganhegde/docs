@@ -4,7 +4,7 @@
 
  * Create `taxi` Quay repos.   Login to your Quay.io account and create a repository `taxi`
 
-  ![Screenshot](create-taxi-in-quay.png)
+  ![Screenshot](img/create-taxi-in-quay.png)
 
  * Login to your Quay.io account that you can generate read/write credentials for.  In user's name pulldown menu, goto Account Settings -> Robot Account (button on the left).   Create a robot account for yourself.  Click your robot account link.
 
