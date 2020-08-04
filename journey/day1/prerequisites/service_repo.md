@@ -1,4 +1,4 @@
-## Fork the taxi app repository
+## Fork the bluetooth module inventory app 
 
 ```shell
-https://github.com/bigkevmcd/taxi
+https://github.com/sbose78/bluetooth-module-inventory
