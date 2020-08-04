@@ -37,7 +37,7 @@ $ odo pipelines bootstrap \
   --sealed-secrets-ns <namespace of sealed-secrets-controller svc>
   --sealed-secrets-svc <name of the sealed-secret-controller svc>
 ```
-
+In the event of manual installations of sealed secrets as decsribed in the documentation,the flags for service and namespace name will have the following values ```--sealed-secret-ns kube-system and sealed-secrets-svc sealed-secrets-controller```.
 
 ## Exploring the pipelines.yaml (manifest file)
 
