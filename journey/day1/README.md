@@ -19,7 +19,8 @@ The following will be provided to attendees in a 4.6 / 4.5 cluster
 
 * Fork/Clone the source Git repository ([bluetooth-module-inventory](prerequisites/service_repo.md) is used as an example in this document) in your Github account.
 
-* The external image repository secret to authenticate image pushes on sucessfull pipeline execution. To use quay.io, please follow ( https://github.com/rhd-gitops-example/deployment-pipelines/tree/master/tutorial#quay-credentials-to-push-built-image-to-quayio-registry)
+* The external image repository secret to authenticate image pushes on sucessfull pipeline execution. To use quay.io, please follow [prerequisites/quay.md](prerequisites/quay.md)
+
 * Download unofficial [odo](../../commands/bin) binary
 
 * Steps to create the git access token for [commit-status-tracker/webhook access-token](prerequisites/git_access_token_steps.md)
@@ -52,7 +53,6 @@ $ odo pipelines bootstrap \
   --sealed-secrets-ns kube-system
   --sealed-secrets-svc sealed-secrets-controller
 ```
-In the event of manual installations of sealed secrets as decsribed in the documentation,the flags for service and namespace name will have the following values ```--sealed-secret-ns kube-system and --sealed-secrets-svc sealed-secrets-controller```.
 
 
 ## Bringing the bootstrapped environment up
