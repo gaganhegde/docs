@@ -141,69 +141,8 @@ By default this triggers a PipelineRun of this pipeline
 These files are not managed directly by the manifest, you're free to change them
 for your own needs, by default they use [Buildah](https://github.com/containers/buildah)
 to trigger build, assuming that the Dockerfile for your application is in the root
-of your repository. In order to use features such as adding additional labels to the image built, the current bulidah cluster-task from the pipelines-operator has to be replaced. Create a file with the ```.yaml``` extension with the contents shown below.
+of your repository. 
 
-```yaml
-
----
-apiVersion: tekton.dev/v1alpha1
-kind: ClusterTask
-metadata:
-  name: buildah
-spec:
-  inputs:
-    params:
-    - name: BUILDER_IMAGE
-      description: The location of the buildah builder image.
-      default: quay.io/buildah/stable:v1.11.0
-    - name: DOCKERFILE
-      description: Path to the Dockerfile to build.
-      default: ./Dockerfile
-    - name: TLSVERIFY
-      description: Verify the TLS on the registry endpoint (for push/pull to a non-TLS registry)
-      default: "true"
-    - name: BUILD_EXTRA_ARGS
-      description: Extra parameters passed for the push command when pushing images.
-      type: string
-      default: ""
-    resources:
-    - name: source
-      type: git
-  outputs:
-    resources:
-    - name: image
-      type: image
-  steps:
-  - name: build
-    image: $(inputs.params.BUILDER_IMAGE)
-    workingDir: /workspace/source
-    script: |
-      buildah bud $(inputs.params.BUILD_EXTRA_ARGS) --tls-verify=$(inputs.params.TLSVERIFY) --layers -f $(inputs.params.DOCKERFILE) -t $(outputs.resources.image.url) .
-    volumeMounts:
-    - name: varlibcontainers
-      mountPath: /var/lib/containers
-    securityContext:
-      privileged: true
-  - name: push
-    image: $(inputs.params.BUILDER_IMAGE)
-    workingDir: /workspace/source
-    command: ['buildah', 'push', '--tls-verify=$(inputs.params.TLSVERIFY)', '$(outputs.resources.image.url)', 'docker://$(outputs.resources.image.url)']
-    volumeMounts:
-    - name: varlibcontainers
-      mountPath: /var/lib/containers
-    securityContext:
-      privileged: true
-  volumes:
-  - name: varlibcontainers
-    emptyDir: {}
-    
-```
-Once created, simply run the command below:
-```shell
-kubectl replace -f <file-name>.yaml
-```
-A success message indicating the replacment of the older cluster task with the latest <file-name>.yaml will be shown.
-  
 ### configuring services
 
 ```yaml
