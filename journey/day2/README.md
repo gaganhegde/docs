@@ -26,7 +26,7 @@ To generate resources for a new Environment, you simiply run this command.
 ```shell
 $ odo pipelines environment add \
   --env-name new-env \
-  --pipelines-file <path to pipelines file>
+  --pipelines-folder <path to GitOps folder>
 ```
 
 It adds a new Environment `new-env` in the Pipelines Model.
@@ -37,7 +37,7 @@ environments:
   pipelines:
     integration:
       bindings:
-      - github-pr-binding
+      - github-push-binding
       template: app-ci-template
 ```
 
@@ -58,7 +58,7 @@ $ odo pipelines service add \
   --app-name app-bus \
   --service-name bus \
   --git-repo-url http://github.com/<user>/bus.git \
-  --pipelines-file <path to pipelines file>
+  --pipelines-folder <path to GitOps file>
 ```
 
 
@@ -69,20 +69,18 @@ environments:
 - apps:
   - name: app-bus
     services:
-    - bus
+    - name: bus
+      source_url: http://github.com/<user>/bus.git
+      webhook:
+        secret:
+          name: webhook-secret-new-env-bus
+          namespace: tst-cicd
   name: new-env
   pipelines:
     integration:
       bindings:
-      - github-pr-binding
+      - github-push-binding
       template: app-ci-template
-  services:
-  - name: bus
-    source_url: https://github.com/wtam2018/bus.git
-    webhook:
-      secret:
-        name: webhook-secret-new-env-bus
-        namespace: tst-cicd
 ```
 
 In the Application's folder, a kustomization.yaml is generated to reference the new Service.
@@ -177,18 +175,20 @@ The Event Listener is modified as below to add a `trigger` for the new Service's
 
 ```yaml
   - bindings:
-    - name: github-pr-binding
+    - name: github-push-binding
     interceptors:
-    - cel:
-        filter: (header.match('X-GitHub-Event', 'pull_request') && body.action ==
-          'opened' || body.action == 'synchronize') && body.pull_request.head.repo.full_name
-          == 'wtam2018/bus'
     - github:
         secretRef:
           namespace: tst-cicd
           secretKey: webhook-secret-key
           secretName: webhook-secret-new-env-bus
-    name: app-ci-build-from-pr-bus
+    - cel:
+        filter: (header.match('X-GitHub-Event', 'push') && body.repository.full_name
+          == 'wtam2018/bus')
+        overlays:
+        - expression: split(body.ref,'/')[2]
+          key: ref
+    name: app-ci-build-from-push-bus
     template:
       name: app-ci-template
 ```
@@ -211,7 +211,7 @@ $ odo pipelines webhook create \
     --access-token \
     --env-name new-env \
     --service-name bus \
-    --pipelines-file <path to pipelines file>
+    --pipelines-folder <path to GitOps folder>
 ```
 
 ## Commit and Push configuration to GitOps repoository
