@@ -5,7 +5,7 @@ Day 1 Operations are actions that users take to bootstrap a GitOps system.   Boo
 * [odo pipelines bootstrap](../../commands/bootstrap)
 * [odo pipelines init](../../commands/init)
 
-These commands are similar.  They differ in what gets generated.  The bootstrap command generated a functional GitOps setup including your first application.  The init command only generates CI/CD pipelines and associated resources.  This document describes how to bootstrap GitOps to deliver your first application.
+These commands are similar.  They differ in what gets generated.  The bootstrap command generates a functional GitOps setup including your first application.  The init command only generates CI/CD pipelines and associated resources.  This document describes how to bootstrap GitOps to deliver your first application.
 
 ## Prerequisites
 
