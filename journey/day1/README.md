@@ -9,7 +9,7 @@ These commands are similar.  They differ in what gets generated.  The bootstrap 
 
 ## Prerequisites
 
-**NOTE**: `odo pipelines` commands are hidden in `Expermential Mode`.  To enable `Expermential Mode` available, please set th `EXPERIEMENTAL` environment variable in the running terminal.
+**NOTE**: `odo pipelines` commands are hidden in `Expermential Mode`.  To enable `Expermential Mode` available, please set the `EXPERIEMENTAL` environment variable in the running terminal.
 ```shell
 $ export ODO_EXPERIMENTAL=true
 ```
