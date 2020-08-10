@@ -1,6 +1,6 @@
 ## Suggested approach
 
-Install sealed secrets manually, run ``` kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.11.0/controller.yaml ```.
+Install sealed secrets manually, run ``` kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.12.3/controller.yaml ```.
 
 
 
