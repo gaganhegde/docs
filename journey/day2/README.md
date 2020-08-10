@@ -50,7 +50,7 @@ And, it generates the following yamls.  The new resources are namespace and role
 
 ## Create an Application/Service in the new Environment
 
-To generate resources for the new Serivce, run the foolowing command.
+To generate resources for the new Service, run the foolowing command.
 
 ```shell
 $ odo pipelines service add \
@@ -58,7 +58,8 @@ $ odo pipelines service add \
   --app-name app-bus \
   --service-name bus \
   --git-repo-url http://github.com/<user>/bus.git \
-  --pipelines-file <path to pipelines file>```
+  --pipelines-file <path to pipelines file>
+```
 
 
 The `service add` command adds a new Service and Application under `new-env` Environment in the Pipelines Model as below.
