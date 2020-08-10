@@ -35,8 +35,6 @@ $ odo pipelines bootstrap \
   --image-repo quay.io/<username>/<image-repo> \
   --dockercfgjson ~/Downloads/<username>-auth.json \
   --prefix tst
-  --sealed-secrets-ns <namespace of sealed-secrets-controller svc>
-  --sealed-secrets-svc <name of the sealed-secret-controller svc>
 ```
 In the event of manual installations of sealed secrets as decsribed in the documentation,the flags for service and namespace name will have the following values ```--sealed-secret-ns kube-system and --sealed-secrets-svc sealed-secrets-controller```.
 
