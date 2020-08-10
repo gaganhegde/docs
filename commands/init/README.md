@@ -30,8 +30,8 @@ $ odo pipelines init
 | --prefix                              | Add a prefix to the environment names(Dev, stage,prod,cicd etc.) to distinguish and identify individual environments. |
 | --overwrite                           | Optional. Overwrites previously existing GitOps configuration (if any) (default false) |
 | --sealed-secrets-ns string            | Optional. Namespace in which the Sealed Secrets operator is installed, automatically generated secrets are encrypted with this operator (default "kube-system")|
-|  --sealed-secrets-ns string           | Optional. Namespace in which the Sealed Secrets operator is installed, automatically generated secrets are encrypted with this operator (default "sealed-secrets") |
-| --sealed-secrets-svc string           | Optional. Name of the Sealed Secrets Services that encrypts secrets (default "sealedsecretcontroller-sealed-secrets") |
+|  --sealed-secrets-ns string           | Optional. Namespace in which the Sealed Secrets operator is installed, automatically generated secrets are encrypted with this operator (default "kube-system") |
+| --sealed-secrets-svc string           | Optional. Name of the Sealed Secrets Services that encrypts secrets (default "sealed-secrets-controller") |
 | --status-tracker-access-token string  | Optional. Used to authenticate requests to push commit-statuses to your Git hosting service |
 
 The following [directory layout](output) is generated.
