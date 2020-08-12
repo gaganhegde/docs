@@ -3,13 +3,13 @@
 Day 1 Operations are actions that users take to bootstrap a GitOps system.   Bootstrapping GitOps can be done in one of the two commands.
 
 * [odo pipelines bootstrap](../../commands/bootstrap)
-* [odo pipelines init](../../commands/init)
 
-These commands are similar.  They differ in what gets generated.  The bootstrap command generates a functional GitOps setup including your first application.  The init command only generates CI/CD pipelines and associated resources.  This document describes how to bootstrap GitOps to deliver your first application.
+The bootstrap command generates a functional GitOps setup including your first application.
 
+This document describes how to bootstrap GitOps to deliver your first application.
 ## Prerequisites
 
-**NOTE**: `odo pipelines` commands are hidden in `Expermential Mode`.  To enable `Expermential Mode` available, please set the `EXPERIEMENTAL` environment variable in the running terminal.
+**NOTE**: `odo pipelines` commands are experimental, please see [the odo documentation](https://docs.openshift.com/container-platform/4.5/cli_reference/developer_cli_odo/odo-release-notes.html#odo-technology-preview_odo-release-notes) for how to enable experimental mode.
 ```shell
 $ export ODO_EXPERIMENTAL=true
 ```
