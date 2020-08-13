@@ -1,16 +1,18 @@
 # Odo Pipelines Commands
 
-**NOTE**: `odo pipelines` commands are hidden in `Expermential Mode`.  To enable `Expermential Mode` available, please set th `EXPERIEMENTAL` environment variable in the running terminal.
+**NOTE**: `odo pipelines` commands are hidden in `experimental mode`.
+
 ```shell
-$ export ODO_EXPERIMENTAL=true
+# Enable experimental mode
+$ odo preference set experimental true
 ```
-ODO binaries can be downloaded [here](bin).
 
-Odo Pipelines Commands are CLI to setup GitOps environments and services
+ODO binaries can be downloaded [here](./bin).
 
-* [odo pipelines bootstrap](bootstrap)
-* [odo pipelines build](build)
-* [odo pipelines init](init)
-* [odo pipelines environment](environment)
-* [odo pipelines service](service)
-* [odo pipelines webhook](webhook)
+Odo Pipelines Commands are CLI to setup GitOps environments and services.
+
+* [odo pipelines bootstrap](./bootstrap)
+* [odo pipelines build](./build)
+* [odo pipelines environment](./environment)
+* [odo pipelines service](./service)
+* [odo pipelines webhook](./webhook)

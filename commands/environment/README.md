@@ -2,10 +2,12 @@
 
 ## Environment add
 
-_Environment add_ command creates a new environment in an existing GitOps setup.  It outputs resources yaml files, kustomization files, and updated Manifest to filesystem.
+The `environment add` sub-command creates a new environment in an existing GitOps setup.
+
+It outputs resources YAML files, Kustomization files, and updated Manifest to filesystem.
 
 ```shell
-$ odo pipelines environment add 
+$ odo pipelines environment add
   --env-name 
   [--cluster]
   [--pipelines-file]
@@ -21,7 +23,7 @@ $ odo pipelines environment add
 
 The following [directory layout](output) is generated.
 
-```shell
+```
 .
 └── environments
     └── new-env
@@ -32,4 +34,3 @@ The following [directory layout](output) is generated.
             └── overlays
                 └── kustomization.yaml
 ```
-  

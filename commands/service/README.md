@@ -2,14 +2,18 @@
 
 ## Service add
 
-_Service_add_ command adds a new service to an existing environment.  Services are logically grouped by applications.   This command will create an application for the new service if the target application does not exist.  It outputs resources yaml files, kustomization files, and updated Manifest to filesystem.  
+The `service add` sub-command adds a new service to an existing environment.
 
-**NOTE**: Service deployment resources are not generated.  They must be manually added to `environments/<env-new>/ services/<service-name>/base/config` and update the kustomization file `environments/<env-new>/ services/<service-name>/base/kustomization.yaml`
+Services are logically grouped by applications.
+
+This command will create an application for the new service if the target application does not exist.  It outputs resources YAML files, Kustomization files, and updated Manifest to filesystem.
+
+**NOTE**: Service deployment resources are not generated.  They must be manually added to `environments/<env-new>/ services/<service-name>/base/config` and update the Kustomization file `environments/<env-new>/ services/<service-name>/base/kustomization.yaml`
 
 ```shell
-$ odo pipelines service add 
-    --env-name 
-    --app-name 
+$ odo pipelines service add
+    --env-name
+    --app-name
     --service-name
     [--git-repo-url]
     [--sealed-secrets-ns]
@@ -33,12 +37,9 @@ $ odo pipelines service add
 | --service-name | Name of the service to be added.  Service name must be unique within an environment. |
 | --webhook-secret | Optional.  Optional. Provide a secret that we can use to authenticate incoming hooks from your Git hosting service.|
 
-
-
 The following [directory layout](output) is generated.
 
-```shell
-
+```
 .
 ├── apps
 │   └── app-bus
@@ -61,6 +62,4 @@ The following [directory layout](output) is generated.
     │   └── new-env-rolebinding.yaml
     └── overlays
         └── kustomization.yaml
-
 ```
-  

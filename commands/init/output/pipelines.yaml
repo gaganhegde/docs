@@ -1,4 +1,0 @@
-config:
-  pipelines:
-    name: cicd
-gitops_url: https://gitlab.com/ishitasequeira/gitops.git
