@@ -3,13 +3,13 @@
 Day 1 Operations are actions that users take to bootstrap a GitOps system.   Bootstrapping GitOps can be done in one of the two commands.
 
 * [odo pipelines bootstrap](../../commands/bootstrap)
-* [odo pipelines init](../../commands/init)
 
-These commands are similar.  They differ in what gets generated.  The bootstrap command generated a functional GitOps setup including your first application.  The init command only generates CI/CD pipelines and associated resources.  This document describes how to bootstrap GitOps to deliver your first application.
+The bootstrap command generates a functional GitOps setup including your first application.
 
+This document describes how to bootstrap GitOps to deliver your first application.
 ## Prerequisites
 
-**NOTE**: `odo pipelines` commands are hidden in `Expermential Mode`.  To enable `Expermential Mode` available, please set th `EXPERIEMENTAL` environment variable in the running terminal.
+**NOTE**: `odo pipelines` commands are experimental, please see [the odo documentation](https://docs.openshift.com/container-platform/4.5/cli_reference/developer_cli_odo/odo-release-notes.html#odo-technology-preview_odo-release-notes) for how to enable experimental mode.
 ```shell
 $ export ODO_EXPERIMENTAL=true
 ```
@@ -34,9 +34,10 @@ $ odo pipelines bootstrap \
   --gitops-repo-url https://github.com/<username>/gitops.git \
   --image-repo quay.io/<username>/<image-repo> \
   --dockercfgjson ~/Downloads/<username>-auth.json \
-  --prefix tst
+  --prefix tst \
+  --output <path to write GitOps resources>
 ```
-In the event of manual installations of sealed secrets as decsribed in the documentation,the flags for service and namespace name will have the following values ```--sealed-secret-ns kube-system and --sealed-secrets-svc sealed-secrets-controller```.
+Executing the above command will generate the GitOps directory and the required resources. 
 
 ## Exploring the pipelines.yaml (manifest file)
 
@@ -83,7 +84,7 @@ The bootstrap creates two environments, `dev`, and `stage`
 with a user-supplied prefix.  Namespaces are generated for these environments.
 
 The name of the app and service are derived from the last component of your
-`service-repo-url` e.g. if your bootstrap with `--service-repo-url
+`service-repo-url` e.g. if you bootstrap with `--service-repo-url
 https://github.com/myorg/myproject.git` this would bootstrap an app called
 `app-myproject` and a service called `myproject`.
 
@@ -129,12 +130,12 @@ is opened.
 This is the default pipeline specification for the `dev` environment, you
 can find the definitions for these in these two files:
 
- * [`config/<prefix>-cicd/base/pipelines/07-templates/app-ci-build-pr-template.yaml`](output/config/tst-cicd/base/pipelines/07-templates/app-ci-build-pr-template.yaml)
- * [`config/<prefix>-cicd/base/pipelines/06-bindings/github-pr-binding.yaml`](output/config/tst-cicd/base/pipelines/06-bindings/github-pr-binding.yaml)
+ * [`config/<prefix>-cicd/base/07-templates/app-ci-build-from-push-template.yaml`](output/config/cicd/base/07-templates/app-ci-build-from-push-template.yaml)
+ * [`config/<prefix>-cicd/base/06-bindings/github-push-binding.yaml`](output/config/cicd/base/06-bindings/github-push-binding.yaml)
 
 By default this triggers a PipelineRun of this pipeline
 
- * [`config/<prefix>-cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml`](output/config/tst-cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml)
+ * [`config/<prefix>-cicd/base/05-pipelines/app-ci-pipeline.yaml`](output/config/cicd/base/05-pipelines/app-ci-pipeline.yaml)
 
 These files are not managed directly by the manifest, you're free to change them
 for your own needs, by default they use [Buildah](https://github.com/containers/buildah)
@@ -164,15 +165,12 @@ The YAML above defines an app called `app-taxi`, which has a reference to servic
 
 The configuration for these is written out to:
 
- * [`environments/test-dev/services/taxi/base/config/`](output/environments/tst-dev/services/taxi/base/config)
- * [`environments/<prefix>-dev/apps/app-taxi/base/`](output/environments/tst-dev/apps/app-taxi/base/)
+ * [`environments/test-dev/services/taxi/base/config/`](output/environments/dev/apps/app-taxi/services/taxi/base/config)
+ * [`environments/<prefix>-dev/apps/app-taxi/base/`](output/environments/dev/apps/app-taxi/base/)
 
 The `app-taxi` app's configuration references the services configuration.
 
-The `source_url` references the upstream repository for the service, this
-coupled with the `webhook.secret` is also used to drive the CI pipeline, with a
-hook confgured, changes to this repository will trigger the template and
-binding), the secret is used to authenticate incoming hooks from GitHub.
+The `source_url` references the source code repository for the service. The `pipelines` field describes the templates and bindings used for this service.The`webhook.secret` is used to authenticate incoming hooks from GitHub.
 
 ## Bringing the bootstrapped environment up
 
@@ -272,7 +270,7 @@ The default CI pipeline we provide is defined in the manifest file:
 
 This template drives a Pipeline that is stored in this file:
 
- * [`config/<prefix>-cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml`](output/config/tst-cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml)
+ * [`config/<prefix>-cicd/base/05-pipelines/app-ci-pipeline.yaml`](output/config/cicd/base/05-pipelines/app-ci-pipeline.yaml)
 
 An abridged version is shown below, it has a single task `build-image`, which
 executes the `buildah` task, which basically builds the source and generates an
@@ -300,10 +298,10 @@ code:
 
 Write the following Task to this file:
 
- * `config/<prefix>-cicd/base/pipelines/04-tasks/go-test-task.yaml`
+ * `config/<prefix>-cicd/base/04-tasks/go-test-task.yaml`
 
 ```yaml
-apiVersion: tekton.dev/v1alpha1
+apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: go-test
@@ -322,13 +320,16 @@ spec:
 
 This is a simple test task for a Go application, it just runs the tests.
 
+Append the newly added task to the existing kustomize file
+
+* [`config/<prefix>-cicd/base/kustomization.yaml`](output/config/cicd/base/kustomization.yaml)
+
 Update the pipeline in this file:
 
- * [`config/<prefix>-cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml`](output/config/tst-cicd/base/pipelines/05-pipelines/app-ci-pipeline.yaml)
-
+ * [`config/<prefix>-cicd/base/05-pipelines/app-ci-pipeline.yaml`](output/config/cicd/base/05-pipelines/app-ci-pipeline.yaml)
 
 ```yaml
-apiVersion: tekton.dev/v1alpha1
+apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   creationTimestamp: null
