@@ -1,10 +1,9 @@
 # Odo Pipelines build Command
 
-Build command (re-)generates pipelines resources from a pipelines.yaml file.
+The `build` sub-command (re-)generates pipelines resources from a pipelines.yaml file.
 
- 
 ```shell
-$ odo pipelines build 
+$ odo pipelines build
   [--pipelines-file]
   [--output]
 ```
