@@ -85,8 +85,14 @@ This requires an additional parameter:
 ```yaml
           - name: sslVerify
             value: "false"
-```            
+```
 
 This additional parameter configures the TLS to be insecure, i.e. it will not do _any_ validation of the TLS certificate that the server presents, so yes, the data is encrypted, but you don't know who you are sending it to.
 
 The `config/cicd/base/07-templates/app-ci-build-from-push-template.yaml` template will need the same change applied.
+
+You will also need to configure ArgoCD to fetch your data insecurely.
+
+```
+$ argocd repo add https://gitlab.example.com/my-org/my-gitops-repo.git --username git --password <auth token> --insecure-skip-server-verification
+```
