@@ -34,3 +34,59 @@ _GitOps is a subset of DevOps, specifically focussed on deploying the applicatio
 ## How could small teams benefit from GitOps?
 _GitOps is about speeding up application feedback loops, with more automation, it frees up developers to work on the product features that customers love._
 
+## I have a non-globally trusted certificate in front of my private GitHub/GitLab installation, how do I get it to work?
+
+You'll need to reconfigure the automatically generated PipelineRuns.
+
+In file `config/cicd/base/07-templates/app-ci-build-from-push-template.yaml`
+
+```yaml
+      pipelineRef:
+        name: app-ci-pipeline
+      resources:
+      - name: source-repo
+        resourceSpec:
+          params:
+          - name: revision
+            value: $(params.io.openshift.build.commit.id)
+          - name: url
+            value: $(params.gitrepositoryurl)
+          type: git
+```
+
+This requires an additional parameter:
+
+```yaml
+      pipelineRef:
+        name: app-ci-pipeline
+      resources:
+      - name: source-repo
+        resourceSpec:
+          params:
+          - name: revision
+            value: $(params.io.openshift.build.commit.id)
+          - name: url
+            value: $(params.gitrepositoryurl)
+      pipelineRef:
+        name: app-ci-pipeline
+      resources:
+      - name: source-repo
+        resourceSpec:
+          params:
+          - name: revision
+            value: $(params.io.openshift.build.commit.id)
+          - name: url
+            value: $(params.gitrepositoryurl)
+          - name: sslVerify
+            value: "false"
+          type: git
+```
+
+```yaml
+          - name: sslVerify
+            value: "false"
+```            
+
+This additional parameter configures the TLS to be insecure, i.e. it will not do _any_ validation of the TLS certificate that the server presents, so yes, the data is encrypted, but you don't know who you are sending it to.
+
+The `config/cicd/base/07-templates/app-ci-build-from-push-template.yaml` template will need the same change applied.
