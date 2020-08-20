@@ -23,6 +23,10 @@ spec:
   server:
     route:
       enabled: true
+  dex:
+    image: quay.io/redhat-cop/dex
+    openShiftOAuth: true
+    version: v2.22.0-openshift
 ```
 
 Note: Due to an active [issue](https://github.com/argoproj-labs/argocd-operator/issues/107) the operator may not create enough privileges to manage multiple namespaces. In order to solve this apply
@@ -34,6 +38,12 @@ When the pods are up, open the ArgoCD web UI by clicking on the created route
 
 ![ArgoCDPods](../img/ArgoCD_Pods.png)
 
+#### Login using OpenShift OAuth
+
+![OpenShiftAuth](./img/openshift_oauth.png)
+
+#### Login using ArgoCD credentials
+
 Get your login credentials from the cluster
 
 ```shell
@@ -41,5 +51,3 @@ kubectl get secret argocd-cluster -n argocd -ojsonpath='{.data.admin\.password}'
 ```
 
 You can now login with username as `admin` and password fetched in the previous step
-
-![ArgoCDLogin](../img/ArgoCD_Login.png)
