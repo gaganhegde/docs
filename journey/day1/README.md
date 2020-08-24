@@ -191,7 +191,9 @@ $ git push -u origin master
 This should initialise the GitOps repository, this is the start of your journey
 to deploying applications via Git.
 
-Next, we'll bring up our deployment infrastructure, this is only necessary at the
+## Bring up Deployment Infrastructure
+
+we'll bring up our deployment infrastructure, this is only necessary at the
 start, the configuration should be self-hosted thereafter.
 
 ```shell
