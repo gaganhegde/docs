@@ -40,6 +40,8 @@ When the pods are up, open the ArgoCD web UI by clicking on the created route
 
 #### Login using OpenShift OAuth
 
+ArgoCD provides the ability to integrate with an external user management system through Single Sign On (SSO) capabilities. Included with the deployment of ArgoCD is a Dex, a bundled OpenID Connect (OIDC) and OAuth Server with support for pluggable connectors to connect to user management systems. Dex can be configured to make use of OpenShift's authentication capabilities. By using Openshift OAuth users can fully leverage OpenShift's authentication capabilities in ArgoCD. Read more about [OpenShift Authentication Integration With ArgoCD](https://www.openshift.com/blog/openshift-authentication-integration-with-argocd)
+
 ![OpenShiftAuth](./img/openshift_oauth.png)
 
 #### Login using ArgoCD credentials
