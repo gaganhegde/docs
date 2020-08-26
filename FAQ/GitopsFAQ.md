@@ -96,3 +96,5 @@ You will also need to configure ArgoCD to fetch your data insecurely.
 ```
 $ argocd repo add https://gitlab.example.com/my-org/my-gitops-repo.git --username git --password <auth token> --insecure-skip-server-verification
 ```
+
+Also, if you're using the optional _commit-status-tracker_ controller, please see the [documentation](https://github.com/tektoncd/experimental/tree/master/commit-status-tracker#private-git-repository-hosts) for further help, if you're getting an error `x509: certificate signed by unknown authority`.
