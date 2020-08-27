@@ -99,6 +99,6 @@ $ argocd repo add https://gitlab.example.com/my-org/my-gitops-repo.git --usernam
 
 Also, if you're using the optional _commit-status-tracker_ controller, please see the [documentation](https://github.com/tektoncd/experimental/tree/master/commit-status-tracker#private-git-repository-hosts) for further help, if you're getting an error `x509: certificate signed by unknown authority`.
 
-# The secrets in my Git repository are encrypted, how do I backup the key?
+## The secrets in my Git repository are encrypted, how do I backup the key?
 
 https://github.com/bitnami-labs/sealed-secrets#how-can-i-do-a-backup-of-my-sealedsecrets
