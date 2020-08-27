@@ -42,4 +42,4 @@ kubectl get secret argocd-cluster -n argocd -ojsonpath='{.data.admin\.password}'
 
 You can now login with username as `admin` and password fetched in the previous step
 
-![ArgoCDLogin](../img/ArgoCD_Login.png)
+![ArgoCDLogin](../img/ArgoCD_Login.p
