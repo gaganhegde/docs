@@ -40,6 +40,8 @@ Executing the above command will generate the GitOps directory and the required 
 
 In the event of manual installations of sealed secrets as described in the documentation,the flags for service and namespace name will have the following values ```--sealed-secret-ns kube-system and --sealed-secrets-svc sealed-secrets-controller```.
 
+In the event of using ```enterprise Github/Gitlab```, if the driver name isnt evident from the repo URL. Use the ```--private-repo-driver``` flag to enter github or gitlab. For more details kindly visit https://argoproj.github.io/argo-cd/user-guide/private-repositories .
+
 ## Exploring the pipelines.yaml (manifest file)
 
 The bootstrap process generates a fairly large number of files, including a
