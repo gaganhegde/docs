@@ -1,7 +1,15 @@
 ## Suggested approach
 
-Install sealed secrets manually, run the following command:
+First, we need a cicd namespac.:
 
 ```shell
-$ kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.12.3/controller.yaml
+$ oc create namespace cicd
 ```
+
+Install the Sealed Secrets from the Operator Hub.
+
+![Screenshot](img/sealed-secrets-operator.png)
+
+Then create a "SealedSecretController" installation in the "cicd" namespace.
+
+![Screenshot](img/sealed-secrets-controller-in-cicd.png)
