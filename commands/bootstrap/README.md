@@ -43,11 +43,10 @@ $ odo pipelines bootstrap
 | --service-repo-url                    | Provide the URL for your Sevice repository e.g. https://github.com/organisation/repository.git which is source code to your first application. |
 | --service-webhook-secret              | Optional. Provide a secret that we can use to authenticate incoming hooks from your Git hosting service for the GitOps repository. (if not provided, it will be auto-generated)|
 | --overwrite                           | Optional. Overwrites previously existing GitOps configuration (if any) (default false) |
-| --sealed-secrets-ns string            | Optional. Namespace in which the Sealed Secrets operator is installed, automatically generated secrets are encrypted with this operator (default "kube-system") |
-| --sealed-secrets-svc string           | Optional. Name of the Sealed Secrets Services that encrypts secrets (default "sealed-secrets-controller") |
+| --sealed-secrets-ns string            | Optional. Namespace in which the Sealed Secrets operator is installed, automatically generated secrets are encrypted with this operator (default "cicd") |
+| --sealed-secrets-svc string           | Optional. Name of the Sealed Secrets Services that encrypts secrets (default "sealedsecretcontroller-sealed-secrets"") |
 | --status-tracker-access-token string  | Optional. Used to authenticate requests to push commit-statuses to your Git hosting service|
 | --private-repo-driver string          | Optional. If your Enterprise Git repositories are on a custom domain, please indicate which driver to use github or gitlab|
-
 
 The following [directory layout](output) is generated.
 

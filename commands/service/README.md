@@ -32,8 +32,8 @@ $ odo pipelines service add
 | --image-repo                          | Image repository of the form <registry>/<username>/<repository> or <project>/<app> which is used to push newly built images |
 | --internal-registry-hostname          | Host-name for internal image registry e.g. docker-registry.default.svc.cluster.local:5000, used if you are pushing your images to the internal image registry |
 | --pipelines-file | Optional.  Filepath to pipelines file.  Default is _pipelines.yaml_. |
-|  --sealed-secrets-ns string           | Optional. Namespace in which the Sealed Secrets operator is installed, automatically generated secrets are encrypted with this operator (default "kube-system") |
-| --sealed-secrets-svc string           | Optional. Name of the Sealed Secrets Services that encrypts secrets (default "sealed-secrets-controller") |
+| --sealed-secrets-ns string           | Optional. Namespace in which the Sealed Secrets operator is installed, automatically generated secrets are encrypted with this operator (default "cicd") |
+| --sealed-secrets-svc string           | Optional. Name of the Sealed Secrets Services that encrypts secrets (default "sealedsecretcontroller-sealed-secrets") |
 | --service-name | Name of the service to be added.  Service name must be unique within an environment. |
 | --webhook-secret | Optional.  Optional. Provide a secret that we can use to authenticate incoming hooks from your Git hosting service.|
 
