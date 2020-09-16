@@ -1,6 +1,6 @@
 ## Suggested approach
 
-First, we need a cicd namespac.:
+First, we need a cicd namespace:
 
 ```shell
 $ oc create namespace cicd
