@@ -23,6 +23,7 @@ As a software organization, I would like to:
 * Kustomize for defining the differences between environments i.e reusable parameters with extra resources described using kustomization.yaml
 
 ## Getting Started
+#### [gitops version: v0.0.2](https://github.com/redhat-developer/gitops-cli/releases/tag/v0.0.2)
 ### Steps
 
 The following steps will guide you to setup GitOps for application delivery:
