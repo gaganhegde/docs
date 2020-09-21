@@ -34,7 +34,7 @@ The following steps will guide you to setup GitOps for application delivery:
 
 The command reference to generate and manage the above can be found [here](./commands).
 
-This project provides the tooling to generate the recommended directories and manifests as per the [Application Pipelines Model] (./model).
+This project provides the tooling to generate the recommended directories and manifests as per the [Application Pipelines Model](./model).
 
 ### Sample
 
