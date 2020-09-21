@@ -4,14 +4,11 @@ Day 1 Operations are actions that users take to bootstrap a GitOps system.
 
 Bootstrapping GitOps can be done with this command:
 
-* [odo pipelines bootstrap](../../commands/bootstrap)
+* [gitops bootstrap](../../commands/bootstrap)
 
 The bootstrap command generates a functional GitOps setup including your first application.
 
 This document describes how to bootstrap GitOps to deliver your first application.
-
-Please see [these instructions](../commands/README.md) on enabling experimental
-mode for odo.
 
 You need to have the following installed in the OCP 4.x cluster.
 * [Sealed Secrets Operator](prerequisites/sealed_secrets.md)
@@ -22,13 +19,13 @@ And, you will need this.
 * Create [GitOps repository](prerequisites/gitops_repo.md)
 * Source Git repository ([taxi](prerequisites/service_repo.md) is used as an example in this document)
 * The external image repository secret to authenticate image pushes on sucessfull pipeline execution. To use quay.io, please follow [prerequisites/quay.md](prerequisites/quay.md)
-* Download unofficial [odo](../../commands/bin) binary
+* Download official [gitops](../../commands/bin) binary
 * Steps to create the git access token for [commit-status-tracker/webhook access-token](prerequisites/git_access_token_steps.md)
 
 ## Bootstrapping the Manifest
 
 ```shell
-$ odo pipelines bootstrap \
+$ gitops bootstrap \
   --service-repo-url https://github.com/<username>/taxi.git \
   --gitops-repo-url https://github.com/<username>/gitops.git \
   --image-repo quay.io/<username>/<image-repo> \
@@ -225,7 +222,7 @@ Part of the configuration bootstraps a simple TektonCD pipeline for building cod
 You will need to create a new Webhook for the CI:
 
 ```shell
-$ odo pipelines webhook create \
+$ gitops webhook create \
     --access-token <github user access token> \
     --env-name tst-dev \
     --service-name taxi
@@ -254,7 +251,7 @@ Before this next stage, we need to ensure that there's a Webhook configured for
 the "gitops" repo.
 
 ```shell
-$ odo pipelines webhook create \
+$ gitops webhook create \
     --access-token <github user access token> \
     --cicd
 ```

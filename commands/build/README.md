@@ -1,9 +1,9 @@
-# Odo Pipelines build Command
+# Gitops build Command
 
 The `build` sub-command (re-)generates pipelines resources from a pipelines.yaml file.
 
 ```shell
-$ odo pipelines build
+$ gitops build
   [--pipelines-file]
   [--output]
 ```

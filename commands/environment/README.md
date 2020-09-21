@@ -1,4 +1,4 @@
-# Odo Pipelines Environment Command
+# Gitops Environment Command
 
 ## Environment add
 
@@ -7,7 +7,7 @@ The `environment add` sub-command creates a new environment in an existing GitOp
 It outputs resources YAML files, Kustomization files, and updated Manifest to filesystem.
 
 ```shell
-$ odo pipelines environment add
+$ gitops environment add
   --env-name 
   [--cluster]
   [--pipelines-file]

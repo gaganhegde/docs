@@ -1,4 +1,4 @@
-# Odo Pipelines Webhook Command
+# Gitops Webhook Command
 
 * [webhook create](#Webhook-create)
 * [webhook delete](#Webhook-delete)
@@ -13,7 +13,7 @@ If a webhook (with the same EventListener address URL) already exists, a webhook
 Otherwise, a webhook will be created and the ID of the new webhook is written to standard output.
 
 ```shell
-$ odo pipelines webhook create 
+$ gitops webhook create 
     --access-token 
     [--cicd] | [--env-name --service-name]
     [--pipelines-file]
@@ -31,7 +31,7 @@ The `webhook delete` sub-command deletes all webhooks from Git repository that c
 The EventListener address is retrieved from cluster based on the options passed to the command. The IDs of the deleted webhooks will be written to standard output.
 
 ```shell
-$ odo pipelines webhook delete
+$ gitops webhook delete
     --access-token
     [--cicd] | [--env-name --service-name]
     [--pipelines-file ]
@@ -50,7 +50,7 @@ The `webhook list` sub-command displays webhook IDs from the Git repository that
 The EventListener address is retrieved from cluster based on the options passed to the command. The IDs of the found webhooks will be written to standard output.
 
 ```shell
-$ odo pipelines webhook list
+$ gitops webhook list
     --access-token
     [--cicd] | [--env-name --service-name]
     [--pipelines-file ]

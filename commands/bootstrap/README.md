@@ -1,4 +1,4 @@
-# Odo Pipelines Bootstrap Command
+# Gitops Bootstrap Command
 
 The `bootstrap` sub-command creates default environments for your initial application.
 
@@ -12,7 +12,7 @@ The following resources are written to filesystem.
 * Stage environment
 
 ```shell
-$ odo pipelines bootstrap
+$ gitops bootstrap
   --gitops-repo-url
   --service-repo-url
   --image-repo

@@ -1,30 +1,26 @@
 # Day 2 Operations
 
 Day 2 Operations are actions that users take to  change a GitOps system. 
-Currently, the following odo commands are available to allow users to add new
+Currently, the following gitops commands are available to allow users to add new
 Evnrionments and Applications/Services.
 
-* [odo pipelines environment](../../commands/environment)
-* [odo pipelines service](../../commands/service)
-* [odo pipelines webhook](../../commands/webhook)
+* [gitops environment](../../commands/environment)
+* [gitops service](../../commands/service)
+* [gitops webhook](../../commands/webhook)
 
 
 ## Prerequisites
 
-**NOTE**: `odo pipelines` commands are hidden in `Expermential Mode`.  To enable `Expermential Mode` available, please set th `EXPERIEMENTAL` environment variable in the running terminal.
-```shell
-$ export ODO_EXPERIMENTAL=true
-```
 * A GitOps system that has been bootstrapped in [Day 1 Operations](../day1) (Also see Day 1 Operation Prerequisities)
 * A new Git repository to be used as the new Service's source repository. 
-* Download unofficial [odo](../../commands/bin) binary
+* Download official [gitops](../../commands/bin) binary
 
 ## Create a new Environment
 
 To generate resources for a new Environment, you simiply run this command.
 
 ```shell
-$ odo pipelines environment add \
+$ gitops environment add \
   --env-name new-env \
   --pipelines-folder <path to GitOps folder>
 ```
@@ -53,7 +49,7 @@ And, it generates the following yamls.  The new resources are namespace and role
 To generate resources for the new Service, run the foolowing command.
 
 ```shell
-$ odo pipelines service add \
+$ gitops service add \
   --env-name new-env \
   --app-name app-bus \
   --service-name bus \
@@ -207,7 +203,7 @@ $ oc apply -k environments/new-env/env/base/
 Create a webhook for the new source repository.   This will allow webhook on the source repository to trigger CI Pipeline to run continuous integration on the new Service's source.
 
 ```shell
-$ odo pipelines webhook create \
+$ gitops webhook create \
     --access-token \
     --env-name new-env \
     --service-name bus \

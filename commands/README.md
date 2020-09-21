@@ -1,18 +1,18 @@
-# Odo Pipelines Commands
+# Gitops Pipelines Commands
 
-**NOTE**: `odo pipelines` commands are hidden in `experimental mode`.
+**NOTE**: `gitops pipelines` commands are hidden in `experimental mode`.
 
 ```shell
 # Enable experimental mode
-$ odo preference set experimental true
+$ gitops preference set experimental true
 ```
 
-ODO binaries can be downloaded [here](./bin).
+Gitops binaries can be downloaded [here](./bin).
 
-Odo Pipelines Commands are CLI to setup GitOps environments and services.
+Gitops Pipelines Commands are CLI to setup GitOps environments and services.
 
-* [odo pipelines bootstrap](./bootstrap)
-* [odo pipelines build](./build)
-* [odo pipelines environment](./environment)
-* [odo pipelines service](./service)
-* [odo pipelines webhook](./webhook)
+* [gitops pipelines bootstrap](./bootstrap)
+* [gitops pipelines build](./build)
+* [gitops pipelines environment](./environment)
+* [gitops pipelines service](./service)
+* [gitops pipelines webhook](./webhook)
