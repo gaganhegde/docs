@@ -7,7 +7,7 @@
 $ gitops preference set experimental true
 ```
 
-Gitops binaries can be downloaded [here](./bin).
+Gitops binaries can be downloaded [here](https://github.com/redhat-developer/gitops-cli/releases).
 
 Gitops Pipelines Commands are CLI to setup GitOps environments and services.
 
